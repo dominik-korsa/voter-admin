@@ -204,7 +204,7 @@ module.exports = configure((/* ctx */) => ({
     builder: {
       // https://www.electron.build/configuration/configuration
 
-      appId: 'logo-contest-admin',
+      appId: 'voter-admin',
     },
   },
 
