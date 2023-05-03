@@ -49,7 +49,20 @@ export default defineComponent({
 
     const api = useAPI(userManager);
 
+    const loadingState = useLoadingState(async () => {
+      try {
+        user.value = await api.getCurrentUser();
+      } catch (error) {
+        throw new LoadingError(
+          'Nie udało się wczytać informacji o zalogowanym użytkowniku',
+          error,
+        );
+      }
+    });
+
     const getRedirect = (to: RouteLocation) => {
+      if (loadingState.value.state !== 'ready') return null;
+
       const isLoginPage = to.matched.some((matched) => matched.name === routeNames.login);
       if (isLoginPage && user.value !== null) {
         return {
@@ -66,17 +79,6 @@ export default defineComponent({
       }
       return null;
     };
-
-    const loadingState = useLoadingState(async () => {
-      try {
-        user.value = await api.getCurrentUser();
-      } catch (error) {
-        throw new LoadingError(
-          'Nie udało się wczytać informacji o zalogowanym użytkowniku',
-          error,
-        );
-      }
-    });
 
     const cancelBeforeResolve = router.beforeResolve(async (to) => {
       await until(() => loadingState.value.state !== 'loading').toBe(true);
