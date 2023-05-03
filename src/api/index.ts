@@ -85,6 +85,10 @@ export class API {
     }
     return null;
   }
+
+  async setVotingEnabled(enabled: boolean): Promise<void> {
+    await this.instance.post<CurrentUser>(`admin/voting/${enabled ? 'start' : 'stop'}`);
+  }
 }
 
 export const useAPI = (
