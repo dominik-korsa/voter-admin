@@ -87,7 +87,11 @@ export class API {
   }
 
   async setVotingEnabled(enabled: boolean): Promise<void> {
-    await this.instance.post<CurrentUser>(`admin/voting/${enabled ? 'start' : 'stop'}`);
+    await this.instance.post(`admin/voting/${enabled ? 'start' : 'stop'}`);
+  }
+
+  async resetAll(): Promise<void> {
+    await this.instance.delete('admin/setup/resetall');
   }
 }
 

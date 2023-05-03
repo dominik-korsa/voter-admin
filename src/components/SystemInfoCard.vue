@@ -28,9 +28,9 @@
     horizontal
     class="items-center"
     :class="{
-            'text-green-8': systemInfo.voting,
-            'text-red-9': !systemInfo.voting,
-          }"
+      'text-green-8': systemInfo.voting,
+      'text-red-9': !systemInfo.voting,
+    }"
   >
     <q-card-section>
       <q-icon name="check" size="md" v-if="systemInfo.voting" />
@@ -56,6 +56,18 @@
       >
         {{ systemInfo.voting ? 'Zablokuj głosowanie' : 'Odblokuj głosowanie' }}
       </q-btn>
+      <q-btn
+        color="negative"
+        outline
+        @click="resetDialogVisible = true"
+        class="q-mt-sm"
+      >
+        Zresetuj system
+      </q-btn>
+      <reset-dialog
+        v-model="resetDialogVisible"
+        :update-system-info="updateSystemInfo"
+      />
     </q-card-section>
   </q-card-section>
 </template>
@@ -66,9 +78,10 @@ import { SystemInfo } from 'src/api/types';
 import ProvisionForm from 'components/ProvisionForm.vue';
 import { useAPI } from 'src/api';
 import { useQuasar } from 'quasar';
+import ResetDialog from 'components/ResetDialog.vue';
 
 export default defineComponent({
-  components: { ProvisionForm },
+  components: { ResetDialog, ProvisionForm },
   props: {
     updateSystemInfo: {
       type: Function as PropType<() => Promise<void>>,
@@ -88,6 +101,7 @@ export default defineComponent({
     return {
       loading,
       provisionFormVisible: ref(false),
+      resetDialogVisible: ref(false),
       toggleVoting: async () => {
         if (loading.value) return;
         loading.value = true;
