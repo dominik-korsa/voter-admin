@@ -1,12 +1,12 @@
 <template>
   <q-page padding class="index-page">
-    <admin-list />
+    <admin-list/>
     <q-card bordered flat>
       <q-card-section class="text-overline q-py-xs">
         Stan systemu
       </q-card-section>
-      <q-separator />
-      <q-skeleton height="85px" square v-if="systemInfo.state === 'loading'" />
+      <q-separator/>
+      <q-skeleton height="85px" square v-if="systemInfo.state === 'loading'"/>
       <q-card-section v-else-if="systemInfo.state === 'error'" class="text-negative">
         {{ systemInfo.error.friendlyMessage }}
       </q-card-section>
@@ -26,7 +26,7 @@
       <q-card-section class="text-overline q-py-xs">
         Lista klas
       </q-card-section>
-      <q-separator />
+      <q-separator/>
       <q-list separator>
         <q-item
           v-for="item in classItems"
@@ -63,6 +63,11 @@
         </q-item>
       </q-list>
     </q-card>
+
+    <print-card
+      v-if="systemInfo.state === 'ready' && systemInfo.data.provisioned"
+      class="q-mt-md"
+    />
   </q-page>
 </template>
 
@@ -73,6 +78,7 @@ import { ClassResponse, SystemInfo } from 'src/api/types';
 import { useLoadingState } from 'src/composables/loading';
 import { useAPI } from 'src/api';
 import SystemInfoCard from 'components/SystemInfoCard.vue';
+import PrintCard from 'components/PrintCard.vue';
 
 export interface ClassItem extends ClassResponse {
   tokenCount: null | { used: number; unused: number; };
@@ -80,7 +86,11 @@ export interface ClassItem extends ClassResponse {
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { SystemInfoCard, AdminList },
+  components: {
+    PrintCard,
+    SystemInfoCard,
+    AdminList,
+  },
   setup() {
     const api = useAPI();
 

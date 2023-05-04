@@ -17,6 +17,7 @@
         label="Skonfiguruj system"
         color="primary"
         outline
+        no-caps
       />
       <q-dialog v-model="provisionFormVisible" class="provision-dialog">
         <provision-form :update-system-info="updateSystemInfo" />
@@ -53,6 +54,7 @@
         outline
         :loading="loading"
         @click="toggleVoting"
+        no-caps
       >
         {{ systemInfo.voting ? 'Zablokuj głosowanie' : 'Odblokuj głosowanie' }}
       </q-btn>
@@ -61,6 +63,7 @@
         outline
         @click="resetDialogVisible = true"
         class="q-mt-sm"
+        no-caps
       >
         Zresetuj system
       </q-btn>
