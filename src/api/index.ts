@@ -1,4 +1,6 @@
-import type { CurrentUser, SystemInfo } from 'src/api/types';
+import type {
+  ClassResponse, CurrentUser, SystemInfo, SystemInfoResponse,
+} from 'src/api/types';
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { UserManager, useUserManager } from 'src/composables/user-manager';
 
@@ -65,10 +67,15 @@ export class API {
   }
 
   async getSystemInfo(): Promise<SystemInfo> {
-    const response = await this.instance.get<SystemInfo>('user/getinfo', {
+    const response = await this.instance.get<SystemInfoResponse>('user/getinfo', {
       withCredentials: false,
     });
-    return response.data;
+    if (!response.data.provisioned) return response.data;
+    const classesResponse = await this.instance.get<ClassResponse[]>('admin/logos/get');
+    return {
+      ...response.data,
+      classes: classesResponse.data,
+    };
   }
 
   async provision(
