@@ -5,7 +5,7 @@
     </q-card-section>
     <q-separator/>
     <q-card-section class="print-card__options">
-      <radio-card v-model="printSelection" label="Tylna strona" name="back" />
+      <radio-card v-model="printSelection" label="Tylko tylna strona" name="back" />
       <radio-card v-model="printSelection" label="Przednia strona" name="front" />
       <radio-card v-model="printSelection" label="Obustronnie" name="both" />
     </q-card-section>

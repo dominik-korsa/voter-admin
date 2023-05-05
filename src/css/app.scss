@@ -1,4 +1,9 @@
-// app global css in SCSS form
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
 .col-filler {
   flex-basis: 0;
   flex-grow: 1;
