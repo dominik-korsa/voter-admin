@@ -16,6 +16,7 @@
             label="Nazwa użytkownika"
             :rules="usernameRules"
             hide-bottom-space
+            autofocus
           />
           <q-input
             v-model="email"

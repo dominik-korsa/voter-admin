@@ -68,10 +68,10 @@ export default defineComponent({
 
     const checkboxes = ref<Checkbox[]>(
       [
-        'wszystkie logo zostaną usunięte',
+        'lista klas i numerów logo zostanie usunięta',
         'wszystkie głosy zostaną usunięte',
-        'wszystkie kody do głosowania przestaną działać',
         'wyniki tego głosowania przepadną na zawsze',
+        'wszystkie kody do głosowania przestaną działać',
         'konta administratorów <b>pozostaną ważne</b>',
       ].map((text) => ({
         text,

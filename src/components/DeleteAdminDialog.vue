@@ -4,8 +4,8 @@
     @close="close()"
   >
     <q-card>
-      <q-card-section tag="h6" class="q-ma-none">
-        Usuwanie administratora
+      <q-card-section tag="h6" class="q-ma-none text-negative">
+        Usuń administratora
       </q-card-section>
       <q-separator />
       <q-card-section class="q-pb-none">
