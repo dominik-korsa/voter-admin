@@ -42,11 +42,11 @@
           </q-item-label>
         </q-item-section>
       </q-item>
-      <q-item class="text-primary" clickable>
+      <q-item class="text-primary" clickable @click="adminDialogVisible = true">
         <q-item-section side>
           <q-icon name="add" color="primary" />
         </q-item-section>
-        <q-item-section @click="adminDialogVisible = true">
+        <q-item-section>
           Dodaj administratora
         </q-item-section>
       </q-item>

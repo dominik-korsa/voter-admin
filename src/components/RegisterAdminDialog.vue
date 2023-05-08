@@ -9,7 +9,7 @@
           Dodaj nowego administratora
         </q-card-section>
         <q-separator />
-        <q-card-section class="q-gutter-md">
+        <q-card-section class="q-gutter-md q-pb-none">
           <q-input
             v-model="username"
             filled
