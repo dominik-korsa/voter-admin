@@ -118,6 +118,10 @@ export class API {
     }
     return null;
   }
+
+  async deleteAdmin(uuid: string) {
+    await this.instance.delete(`admin/users/delete/${uuid}`);
+  }
 }
 
 export const useAPI = (

@@ -104,7 +104,7 @@ export default defineComponent({
           console.error(error);
           quasar.notify({
             type: 'negative',
-            message: 'Wystąił nieoczekiwany błąd podczas resetowania',
+            message: 'Wystąpił nieoczekiwany błąd podczas resetowania',
           });
         }
         loading.value = false;

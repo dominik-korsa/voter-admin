@@ -128,7 +128,7 @@ export default defineComponent({
           console.error(error);
           quasar.notify({
             type: 'negative',
-            message: 'Wystąił nieoczekiwany błąd podczas tworzenia administratora',
+            message: 'Wystąpił nieoczekiwany błąd podczas tworzenia administratora',
           });
         }
         loading.value = false;

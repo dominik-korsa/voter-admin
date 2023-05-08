@@ -41,8 +41,36 @@
             {{ admin.email }}
           </q-item-label>
         </q-item-section>
+        <q-item-section side>
+          <q-btn icon="more_vert" flat round>
+            <q-menu
+              anchor="top right"
+              self="top right"
+              auto-close
+            >
+              <q-list>
+                <q-item
+                  clickable
+                  :disable="isSelf(admin.uuid)"
+                  @click="deleteAdmin(admin)"
+                >
+                  <q-item-section side>
+                    <q-icon name="remove" />
+                  </q-item-section>
+                  <q-item-section>Usuń użytkownika</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section side>
+                    <q-icon name="key" />
+                  </q-item-section>
+                  <q-item-section>Zmień hasło</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </q-item-section>
       </q-item>
-      <q-item class="text-primary" clickable @click="adminDialogVisible = true">
+      <q-item class="text-primary" clickable @click="registerDialogVisible = true">
         <q-item-section side>
           <q-icon name="add" color="primary" />
         </q-item-section>
@@ -52,8 +80,13 @@
       </q-item>
     </q-list>
     <register-admin-dialog
-      v-model="adminDialogVisible"
+      v-model="registerDialogVisible"
       :update-admin-list="updateList"
+    />
+    <delete-admin-dialog
+      :deleted-admin="deletedAdmin"
+      :update-admin-list="updateList"
+      @close="deletedAdmin = null"
     />
   </q-card>
 </template>
@@ -63,11 +96,15 @@ import { defineComponent, ref } from 'vue';
 import { LoadingError, useLoadingState } from 'src/composables/loading';
 import { useAPI } from 'src/api';
 import RegisterAdminDialog from 'components/RegisterAdminDialog.vue';
+import { useUserManager } from 'src/composables/user-manager';
+import { AdminListItem } from 'src/api/types';
+import DeleteAdminDialog from 'components/DeleteAdminDialog.vue';
 
 export default defineComponent({
-  components: { RegisterAdminDialog },
+  components: { DeleteAdminDialog, RegisterAdminDialog },
   setup: () => {
     const api = useAPI();
+    const userManager = useUserManager();
 
     const adminList = useLoadingState(async () => {
       try {
@@ -79,11 +116,17 @@ export default defineComponent({
         );
       }
     });
-    const adminDialogVisible = ref(false);
+    const registerDialogVisible = ref(false);
+    const deletedAdmin = ref<AdminListItem | null>(null);
 
     return ({
       adminList,
-      adminDialogVisible,
+      registerDialogVisible,
+      deletedAdmin,
+      isSelf: (userUuid: string) => userManager.user?.uuid === userUuid,
+      deleteAdmin: async (admin: AdminListItem) => {
+        deletedAdmin.value = admin;
+      },
       updateList: async () => {
         if (adminList.value.state !== 'ready') return;
         await adminList.value.reload();
