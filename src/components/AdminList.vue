@@ -4,16 +4,26 @@
       Lista administratorów
     </q-card-section>
     <q-separator/>
-    <q-item v-if="adminList.state === 'loading'">
-      <q-item-section>
-        <q-item-label>
-          <q-skeleton type="text" width="25%" />
-        </q-item-label>
-        <q-item-label caption>
-          <q-skeleton type="text" width="40%" />
-        </q-item-label>
-      </q-item-section>
-    </q-item>
+    <q-list separator v-if="adminList.state === 'loading'">
+      <q-item>
+        <q-item-section>
+          <q-item-label>
+            <q-skeleton type="text" width="25%" />
+          </q-item-label>
+          <q-item-label caption>
+            <q-skeleton type="text" width="40%" />
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section side>
+          <q-icon name="add" />
+        </q-item-section>
+        <q-item-section>
+          <q-skeleton type="text" width="35%" />
+        </q-item-section>
+      </q-item>
+    </q-list>
     <q-card-section v-else-if="adminList.state === 'error'" class="text-negative">
       {{ adminList.error.friendlyMessage }}
     </q-card-section>
@@ -32,6 +42,14 @@
           </q-item-label>
         </q-item-section>
       </q-item>
+      <q-item class="text-primary" clickable>
+        <q-item-section side>
+          <q-icon name="add" color="primary" />
+        </q-item-section>
+        <q-item-section>
+          Dodaj administratora
+        </q-item-section>
+      </q-item>
     </q-list>
   </q-card>
 </template>
@@ -46,7 +64,8 @@ export default defineComponent({
     const api = useAPI();
     const adminList = useLoadingState(async () => {
       try {
-        return api.getAdminList();
+        await new Promise((resolve) => { setTimeout(resolve, 15000); });
+        return await api.getAdminList();
       } catch (error) {
         throw new LoadingError(
           'Nie udało się wczytać listy administratorów',
