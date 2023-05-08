@@ -1,9 +1,5 @@
 <template>
-  <q-card bordered flat>
-    <q-card-section class="text-overline q-py-xs">
-      Lista administratorów
-    </q-card-section>
-    <q-separator/>
+  <home-card label="Lista administratorów">
     <q-list separator v-if="adminList.state === 'loading'">
       <q-item>
         <q-item-section>
@@ -92,7 +88,7 @@
       :admin="passwordChangedAdmin"
       @close="passwordChangedAdmin = null"
     />
-  </q-card>
+  </home-card>
 </template>
 
 <script lang="ts">
@@ -104,9 +100,12 @@ import { useUserManager } from 'src/composables/user-manager';
 import { AdminListItem } from 'src/api/types';
 import DeleteAdminDialog from 'components/DeleteAdminDialog.vue';
 import ChangePasswordDialog from 'components/ChangePasswordDialog.vue';
+import HomeCard from 'components/HomeCard.vue';
 
 export default defineComponent({
-  components: { ChangePasswordDialog, DeleteAdminDialog, RegisterAdminDialog },
+  components: {
+    HomeCard, ChangePasswordDialog, DeleteAdminDialog, RegisterAdminDialog,
+  },
   setup: () => {
     const api = useAPI();
     const userManager = useUserManager();

@@ -11,7 +11,7 @@
         >
           {{ loadingState.error.friendlyMessage }}
         </div>
-        <q-spinner v-else size="128" color="primary" :thickness="2" />
+        <q-spinner v-else size="128" color="white" :thickness="2" />
       </q-page>
     </q-page-container>
   </q-layout>

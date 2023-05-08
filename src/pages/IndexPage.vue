@@ -1,10 +1,7 @@
 <template>
-  <q-page padding class="index-page">
-    <q-card bordered flat>
-      <q-card-section class="text-overline q-py-xs">
-        Stan systemu
-      </q-card-section>
-      <q-separator/>
+  <q-page padding class="index-page q-pb-xl">
+    <signed-in-user-card />
+    <home-card label="Stan systemu">
       <q-skeleton height="85px" square v-if="systemInfo.state === 'loading'"/>
       <q-card-section v-else-if="systemInfo.state === 'error'" class="text-negative">
         {{ systemInfo.error.friendlyMessage }}
@@ -14,14 +11,14 @@
         :system-info="systemInfo.data"
         :update-system-info="updateSystemInfo"
       />
-    </q-card>
+    </home-card>
 
     <template v-if="systemInfo.state === 'ready' && systemInfo.data.provisioned">
-      <class-list class="q-mt-md" :classes="systemInfo.data.classes" />
-      <print-card class="q-mt-md"/>
+      <class-list :classes="systemInfo.data.classes" />
+      <print-card />
     </template>
 
-    <admin-list class="q-mt-md" />
+    <admin-list />
   </q-page>
 </template>
 
@@ -34,10 +31,14 @@ import { useAPI } from 'src/api';
 import SystemInfoCard from 'components/SystemInfoCard.vue';
 import PrintCard from 'components/PrintCard.vue';
 import ClassList from 'components/ClassList.vue';
+import SignedInUserCard from 'components/SignedInUserCard.vue';
+import HomeCard from 'components/HomeCard.vue';
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
+    HomeCard,
+    SignedInUserCard,
     ClassList,
     PrintCard,
     SystemInfoCard,
@@ -62,6 +63,14 @@ export default defineComponent({
 
 <style lang="scss">
 .index-page {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+
+  > *:not(:first-child) {
+    margin-top: 24px;
+  }
+
   .index-page__logos-list {
     margin: 0 -4px;
   }

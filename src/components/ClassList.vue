@@ -1,9 +1,5 @@
 <template>
-  <q-card bordered flat>
-    <q-card-section class="text-overline q-py-xs">
-      Lista klas
-    </q-card-section>
-    <q-separator/>
+  <home-card label="Lista klas">
     <q-list separator>
       <q-item
         v-for="item in classItems"
@@ -39,18 +35,20 @@
         </q-item-section>
       </q-item>
     </q-list>
-  </q-card>
+  </home-card>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
 import { ClassResponse } from 'src/api/types';
+import HomeCard from 'components/HomeCard.vue';
 
 interface ClassItem extends ClassResponse {
   tokenCount: null | { used: number; unused: number; };
 }
 
 export default defineComponent({
+  components: { HomeCard },
   props: {
     classes: {
       type: Array as PropType<ClassResponse[]>,

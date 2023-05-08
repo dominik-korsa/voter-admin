@@ -1,23 +1,20 @@
 <template>
-  <q-card bordered flat class="print-card">
-    <q-card-section class="text-overline q-py-xs">
-      Wydrukuj kody do głosowania
-    </q-card-section>
-    <q-separator/>
+  <home-card class="print-card" label="Wydrukuj kody do głosowania">
     <q-card-section class="print-card__options">
       <radio-card v-model="printSelection" label="Tylko tylna strona" name="back" />
       <radio-card v-model="printSelection" label="Przednia strona" name="front" />
       <radio-card v-model="printSelection" label="Obustronnie" name="both" />
     </q-card-section>
-  </q-card>
+  </home-card>
 </template>
 
 <script lang="ts">
 import RadioCard from 'components/RadioCard.vue';
 import { defineComponent, ref } from 'vue';
+import HomeCard from 'components/HomeCard.vue';
 
 export default defineComponent({
-  components: { RadioCard },
+  components: { HomeCard, RadioCard },
   setup: () => ({
     printSelection: ref('back'),
   }),

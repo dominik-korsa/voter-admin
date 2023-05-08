@@ -2,6 +2,7 @@
 
 body {
   font-family: 'Space Grotesk', sans-serif;
+  background: #F5C800;
 }
 
 .col-filler {
@@ -16,4 +17,13 @@ body {
 
 .border-primary {
   border-color: $primary;
+}
+
+.q-card, .q-menu {
+  box-shadow: 3px 3px 0 #0003;
+}
+
+.q-menu, .q-dialog__inner > .q-card {
+  box-shadow: 5px 5px 0 #0002;
+  border: 1px solid $separator-color;
 }
