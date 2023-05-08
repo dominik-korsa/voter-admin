@@ -129,6 +129,10 @@ export class API {
       newPassword,
     });
   }
+
+  async signOut() {
+    await this.instance.post('admin/logout');
+  }
 }
 
 export const useAPI = (

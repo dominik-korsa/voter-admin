@@ -1,7 +1,9 @@
 <template>
   <q-card bordered>
     <q-card-section class="text-overline q-py-xs">
-      {{ label }}
+      <slot name="header">
+        {{ label }}
+      </slot>
     </q-card-section>
     <q-separator/>
     <slot />
@@ -15,7 +17,8 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
   },
 });

@@ -32,6 +32,7 @@
         <q-item-section>
           <q-item-label>
             {{ admin.name }}
+            <b v-if="isSelf(admin.uuid)">(ty)</b>
           </q-item-label>
           <q-item-label caption>
             {{ admin.email }}
