@@ -63,7 +63,7 @@ export default defineComponent({
 
 <style lang="scss">
 .index-page {
-  max-width: 900px;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 

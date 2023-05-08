@@ -11,14 +11,6 @@
           </q-item-label>
         </q-item-section>
       </q-item>
-      <q-item>
-        <q-item-section side>
-          <q-icon name="add" />
-        </q-item-section>
-        <q-item-section>
-          <q-skeleton type="text" width="35%" />
-        </q-item-section>
-      </q-item>
     </q-list>
     <q-card-section v-else-if="adminList.state === 'error'" class="text-negative">
       {{ adminList.error.friendlyMessage }}
@@ -67,15 +59,19 @@
           </q-btn>
         </q-item-section>
       </q-item>
-      <q-item class="text-primary" clickable @click="registerDialogVisible = true">
-        <q-item-section side>
-          <q-icon name="add" color="primary" />
-        </q-item-section>
-        <q-item-section>
-          Dodaj administratora
-        </q-item-section>
-      </q-item>
     </q-list>
+    <q-separator />
+    <q-btn
+      label="Dodaj administratora"
+      color="primary"
+      stretch
+      class="full-width"
+      flat
+      no-caps
+      icon="add"
+      :disable="adminList.state !== 'ready'"
+      @click="registerDialogVisible = true"
+    />
     <register-admin-dialog
       v-model="registerDialogVisible"
       :update-admin-list="updateList"

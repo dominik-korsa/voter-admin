@@ -11,18 +11,6 @@
       <div class="text-h5">System zresetowany</div>
       <div>Przed rozpoczęciem głosowania musisz wprowadzić numery logo klas</div>
     </q-card-section>
-    <q-card-section>
-      <q-btn
-        @click="provisionFormVisible = true"
-        label="Skonfiguruj system"
-        color="primary"
-        outline
-        no-caps
-      />
-      <q-dialog v-model="provisionFormVisible" class="provision-dialog">
-        <provision-form :update-system-info="updateSystemInfo" />
-      </q-dialog>
-    </q-card-section>
   </q-card-section>
   <q-card-section
     v-else
@@ -48,31 +36,48 @@
       <div class="text-h5">Głosowanie zablokowane</div>
       <div>System został skonfigurowany, ale uczniowie nie mogą oddawać głosów</div>
     </q-card-section>
-    <q-card-section class="column">
-      <q-btn
-        color="primary"
-        outline
-        :loading="loading"
-        @click="toggleVoting"
-        no-caps
-      >
-        {{ systemInfo.voting ? 'Zablokuj głosowanie' : 'Odblokuj głosowanie' }}
-      </q-btn>
-      <q-btn
-        color="negative"
-        outline
-        @click="resetDialogVisible = true"
-        class="q-mt-sm"
-        no-caps
-      >
-        Zresetuj system
-      </q-btn>
-      <reset-dialog
-        v-model="resetDialogVisible"
-        :update-system-info="updateSystemInfo"
-      />
-    </q-card-section>
   </q-card-section>
+  <q-separator />
+  <template v-if="!systemInfo.provisioned">
+    <q-btn
+      @click="provisionFormVisible = true"
+      label="Skonfiguruj system"
+      color="primary"
+      no-caps
+      flat
+      stretch
+      class="full-width"
+    />
+    <q-dialog v-model="provisionFormVisible" class="provision-dialog">
+      <provision-form :update-system-info="updateSystemInfo" />
+    </q-dialog>
+  </template>
+  <div class="row no-wrap" v-else>
+    <q-btn
+      color="primary"
+      flat
+      :loading="loading"
+      @click="toggleVoting"
+      no-caps
+      stretch
+      class="col-filler"
+      :label="systemInfo.voting ? 'Zablokuj głosowanie' : 'Odblokuj głosowanie'"
+    />
+    <q-separator vertical />
+    <q-btn
+      color="negative"
+      flat
+      @click="resetDialogVisible = true"
+      class="col-filler"
+      no-caps
+      stretch
+      label="Zresetuj system"
+    />
+    <reset-dialog
+      v-model="resetDialogVisible"
+      :update-system-info="updateSystemInfo"
+    />
+  </div>
 </template>
 
 <script lang="ts">
