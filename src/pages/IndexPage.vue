@@ -32,6 +32,7 @@
           v-for="item in classItems"
           :key="item.class"
           class="items-start"
+          :data-uuid="item.class"
         >
           <q-item-section class="col-side q-mr-sm">
             <div class="text-overline">Nazwa</div>
