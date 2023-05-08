@@ -37,3 +37,9 @@ export interface SystemInfoProvisioned extends SystemInfoResponseProvisioned {
 }
 
 export type SystemInfo = SystemInfoResponseReset | SystemInfoProvisioned;
+
+export interface AdminListItem {
+  uuid: string;
+  name: string;
+  email: string;
+}

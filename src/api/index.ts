@@ -1,4 +1,5 @@
 import type {
+  AdminListItem,
   ClassResponse, CurrentUser, SystemInfo, SystemInfoResponse,
 } from 'src/api/types';
 import axios, { AxiosInstance, AxiosError } from 'axios';
@@ -37,9 +38,7 @@ export class API {
 
   async getCurrentUser(): Promise<CurrentUser | null> {
     try {
-      const response = await this.instance.get<CurrentUser>('admin/currentuser', {
-        withCredentials: true,
-      });
+      const response = await this.instance.get<CurrentUser>('admin/currentuser');
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 401) return null;
@@ -67,9 +66,7 @@ export class API {
   }
 
   async getSystemInfo(): Promise<SystemInfo> {
-    const response = await this.instance.get<SystemInfoResponse>('user/getinfo', {
-      withCredentials: false,
-    });
+    const response = await this.instance.get<SystemInfoResponse>('user/getinfo');
     if (!response.data.provisioned) return response.data;
     const classesResponse = await this.instance.get<ClassResponse[]>('admin/logos/get');
     return {
@@ -99,6 +96,11 @@ export class API {
 
   async resetAll(): Promise<void> {
     await this.instance.delete('admin/setup/resetall');
+  }
+
+  async getAdminList() {
+    const response = await this.instance.get<AdminListItem[]>('admin/users/get');
+    return response.data;
   }
 }
 

@@ -1,6 +1,5 @@
 <template>
   <q-page padding class="index-page">
-    <admin-list/>
     <q-card bordered flat>
       <q-card-section class="text-overline q-py-xs">
         Stan systemu
@@ -69,6 +68,8 @@
       v-if="systemInfo.state === 'ready' && systemInfo.data.provisioned"
       class="q-mt-md"
     />
+
+    <admin-list class="q-mt-md" />
   </q-page>
 </template>
 
