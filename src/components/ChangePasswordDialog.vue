@@ -1,7 +1,7 @@
 <template>
   <q-dialog
     :model-value="admin !== null"
-    @close="close()"
+    @update:model-value="onVisibilityChange"
   >
     <q-card>
       <q-form @submit.prevent="submit">
@@ -81,6 +81,9 @@ export default defineComponent({
       ],
       close,
       loading,
+      onVisibilityChange: (value: boolean) => {
+        if (!value) close();
+      },
       submit: async () => {
         if (loading.value) return;
         if (!props.admin) return;
