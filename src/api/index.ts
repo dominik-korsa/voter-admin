@@ -122,6 +122,13 @@ export class API {
   async deleteAdmin(uuid: string) {
     await this.instance.delete(`admin/users/delete/${uuid}`);
   }
+
+  async changePassword(uuid: string, newPassword: string) {
+    await this.instance.patch('admin/users/setpassword', {
+      uuid,
+      newPassword,
+    });
+  }
 }
 
 export const useAPI = (

@@ -1,8 +1,20 @@
 <template>
   <div>
     <q-form @submit.prevent="onSubmit">
-      <q-input v-model="username" label="Nazwa użytkownika" required autofocus />
-      <q-input v-model="password" label="Hasło" type="password" required />
+      <q-input
+        v-model="username"
+        label="Nazwa użytkownika"
+        required
+        autofocus
+        autocomplete="username"
+      />
+      <q-input
+        v-model="password"
+        label="Hasło"
+        type="password"
+        required
+        autocomplete="current-password"
+      />
       <q-btn type="submit" label="Zaloguj się" />
     </q-form>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <q-dialog
-    :model-value="deletedAdmin !== null"
+    :model-value="admin !== null"
     @close="close()"
   >
     <q-card>
@@ -13,8 +13,8 @@
         <q-card bordered flat class="q-mt-md">
           <q-item>
             <q-item-section>
-              <q-item-label>{{ deletedAdmin.name }}</q-item-label>
-              <q-item-label caption>{{ deletedAdmin.email }}</q-item-label>
+              <q-item-label>{{ admin.name }}</q-item-label>
+              <q-item-label caption>{{ admin.email }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-card>
@@ -45,7 +45,7 @@ import { AdminListItem } from 'src/api/types';
 
 export default defineComponent({
   props: {
-    deletedAdmin: {
+    admin: {
       type: Object as PropType<AdminListItem | null>,
       required: false,
       default: null,
@@ -68,10 +68,10 @@ export default defineComponent({
       loading,
       submit: async () => {
         if (loading.value) return;
-        if (!props.deletedAdmin) return;
+        if (!props.admin) return;
         loading.value = true;
         try {
-          await api.deleteAdmin(props.deletedAdmin.uuid);
+          await api.deleteAdmin(props.admin.uuid);
           await props.updateAdminList();
           close();
         } catch (error) {

@@ -59,7 +59,7 @@
                   </q-item-section>
                   <q-item-section>Usuń użytkownika</q-item-section>
                 </q-item>
-                <q-item clickable>
+                <q-item clickable @click="changePassword(admin)">
                   <q-item-section side>
                     <q-icon name="key" />
                   </q-item-section>
@@ -84,9 +84,13 @@
       :update-admin-list="updateList"
     />
     <delete-admin-dialog
-      :deleted-admin="deletedAdmin"
+      :admin="deletedAdmin"
       :update-admin-list="updateList"
       @close="deletedAdmin = null"
+    />
+    <change-password-dialog
+      :admin="passwordChangedAdmin"
+      @close="passwordChangedAdmin = null"
     />
   </q-card>
 </template>
@@ -99,9 +103,10 @@ import RegisterAdminDialog from 'components/RegisterAdminDialog.vue';
 import { useUserManager } from 'src/composables/user-manager';
 import { AdminListItem } from 'src/api/types';
 import DeleteAdminDialog from 'components/DeleteAdminDialog.vue';
+import ChangePasswordDialog from 'components/ChangePasswordDialog.vue';
 
 export default defineComponent({
-  components: { DeleteAdminDialog, RegisterAdminDialog },
+  components: { ChangePasswordDialog, DeleteAdminDialog, RegisterAdminDialog },
   setup: () => {
     const api = useAPI();
     const userManager = useUserManager();
@@ -118,14 +123,19 @@ export default defineComponent({
     });
     const registerDialogVisible = ref(false);
     const deletedAdmin = ref<AdminListItem | null>(null);
+    const passwordChangedAdmin = ref<AdminListItem | null>(null);
 
     return ({
       adminList,
       registerDialogVisible,
       deletedAdmin,
+      passwordChangedAdmin,
       isSelf: (userUuid: string) => userManager.user?.uuid === userUuid,
       deleteAdmin: async (admin: AdminListItem) => {
         deletedAdmin.value = admin;
+      },
+      changePassword: async (admin: AdminListItem) => {
+        passwordChangedAdmin.value = admin;
       },
       updateList: async () => {
         if (adminList.value.state !== 'ready') return;

@@ -17,6 +17,7 @@
             :rules="usernameRules"
             hide-bottom-space
             autofocus
+            autocomplete="username"
           />
           <q-input
             v-model="email"
@@ -25,6 +26,7 @@
             type="email"
             :rules="emailRules"
             hide-bottom-space
+            autocomplete="email"
           />
           <q-input
             v-model="password"
@@ -33,6 +35,7 @@
             type="password"
             :rules="passwordRules"
             hide-bottom-space
+            autocomplete="new-password"
           />
         </q-card-section>
         <q-card-section class="row justify-end">
