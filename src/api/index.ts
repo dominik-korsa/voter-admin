@@ -1,6 +1,6 @@
 import type {
   AdminListItem,
-  ClassResponse, CurrentUser, SystemInfo, SystemInfoResponse,
+  ClassResponse, CreateAdminBody, CurrentUser, SystemInfo, SystemInfoResponse,
 } from 'src/api/types';
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { UserManager, useUserManager } from 'src/composables/user-manager';
@@ -101,6 +101,22 @@ export class API {
   async getAdminList() {
     const response = await this.instance.get<AdminListItem[]>('admin/users/get');
     return response.data;
+  }
+
+  async createAdmin(
+    body: CreateAdminBody,
+  ): Promise<null | 'INVALID_EMAIL_ADDRESS' | 'USERNAME_OR_EMAIL_TAKEN'> {
+    try {
+      await this.instance.put('admin/users/add', body);
+    } catch (error) {
+      if (error instanceof AxiosError && error.response !== undefined) {
+        const data = error.response.data as { error: string };
+        if (data.error === 'INVALID_EMAIL_ADDRESS') return 'INVALID_EMAIL_ADDRESS';
+        if (data.error === 'USERNAME_OR_EMAIL_TAKEN') return 'USERNAME_OR_EMAIL_TAKEN';
+      }
+      throw error;
+    }
+    return null;
   }
 }
 

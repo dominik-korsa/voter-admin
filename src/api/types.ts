@@ -43,3 +43,9 @@ export interface AdminListItem {
   name: string;
   email: string;
 }
+
+export interface CreateAdminBody {
+  email: string;
+  username: string;
+  password: string;
+}

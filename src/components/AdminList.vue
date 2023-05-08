@@ -46,25 +46,31 @@
         <q-item-section side>
           <q-icon name="add" color="primary" />
         </q-item-section>
-        <q-item-section>
+        <q-item-section @click="adminDialogVisible = true">
           Dodaj administratora
         </q-item-section>
       </q-item>
     </q-list>
+    <register-admin-dialog
+      v-model="adminDialogVisible"
+      :update-admin-list="updateList"
+    />
   </q-card>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { LoadingError, useLoadingState } from 'src/composables/loading';
 import { useAPI } from 'src/api';
+import RegisterAdminDialog from 'components/RegisterAdminDialog.vue';
 
 export default defineComponent({
+  components: { RegisterAdminDialog },
   setup: () => {
     const api = useAPI();
+
     const adminList = useLoadingState(async () => {
       try {
-        await new Promise((resolve) => { setTimeout(resolve, 15000); });
         return await api.getAdminList();
       } catch (error) {
         throw new LoadingError(
@@ -73,8 +79,15 @@ export default defineComponent({
         );
       }
     });
+    const adminDialogVisible = ref(false);
+
     return ({
       adminList,
+      adminDialogVisible,
+      updateList: async () => {
+        if (adminList.value.state !== 'ready') return;
+        await adminList.value.reload();
+      },
     });
   },
 });
