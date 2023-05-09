@@ -1,9 +1,4 @@
 [[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
-
-[[redirects]]
 from = "https://voter-admin.dk-gl.eu/*"
 to = "https://voter.dk-gl.eu/:splat"
 force = true
@@ -14,3 +9,8 @@ from = "https://voter-admin.netlify.app/*"
 to = "https://voter.dk-gl.eu/:splat"
 force = true
 status = 301
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
