@@ -19,7 +19,7 @@ export class API {
 
   constructor(userManager: Readonly<UserManager>) {
     this.instance = axios.create({
-      baseURL: process.env.API_BASE_URL,
+      baseURL: '/api',
       responseType: 'json',
       withCredentials: true,
     });

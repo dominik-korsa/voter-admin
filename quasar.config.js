@@ -20,7 +20,7 @@ const requireEnv = (name) => {
   return value;
 };
 
-module.exports = configure((/* ctx */) => ({
+module.exports = configure((ctx) => ({
   eslint: {
     // fix: true,
     // include: [],
@@ -72,11 +72,9 @@ module.exports = configure((/* ctx */) => ({
 
     // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-    // publicPath: '/',
+    publicPath: '/admin/',
     // analyze: true,
-    env: {
-      API_BASE_URL: requireEnv('API_BASE_URL'),
-    },
+    env: {},
     // rawDefine: {}
     // ignorePublicFolder: true,
     // minify: false,
@@ -94,7 +92,13 @@ module.exports = configure((/* ctx */) => ({
   // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
   devServer: {
     // https: true
-    open: true, // opens browser window automatically
+    open: true, // opens browser window automatically,
+    proxy: ctx.dev ? {
+      '/api': {
+        target: requireEnv('API_BASE_URL'),
+        changeOrigin: true,
+      },
+    } : {},
   },
 
   // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
