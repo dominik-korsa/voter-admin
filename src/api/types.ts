@@ -49,3 +49,13 @@ export interface CreateAdminBody {
   username: string;
   password: string;
 }
+
+export interface GenerateTokensBodyItem {
+  class: string;
+  number: number;
+}
+
+export interface GenerateTokensResponseItem {
+  class: string;
+  tokens: string[];
+}

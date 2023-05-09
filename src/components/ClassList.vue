@@ -35,20 +35,37 @@
         </q-item-section>
       </q-item>
     </q-list>
+    <q-separator />
+    <q-btn
+      stretch
+      class="full-width"
+      flat
+      label="Wygeneruj kody do głosowania"
+      color="primary"
+      no-caps
+      @click="tokensDialogVisible = true"
+    />
+    <generate-tokens-dialog
+      v-model="tokensDialogVisible"
+      :classes="classes"
+    />
   </home-card>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import {
+  computed, defineComponent, PropType, ref,
+} from 'vue';
 import { ClassResponse } from 'src/api/types';
 import HomeCard from 'components/HomeCard.vue';
+import GenerateTokensDialog from 'components/GenerateTokensDialog.vue';
 
 interface ClassItem extends ClassResponse {
   tokenCount: null | { used: number; unused: number; };
 }
 
 export default defineComponent({
-  components: { HomeCard },
+  components: { GenerateTokensDialog, HomeCard },
   props: {
     classes: {
       type: Array as PropType<ClassResponse[]>,
@@ -56,6 +73,7 @@ export default defineComponent({
     },
   },
   setup: (props) => ({
+    tokensDialogVisible: ref(false),
     classItems: computed<ClassItem[] | null>(() => props.classes.map((item): ClassItem => ({
       ...item,
       tokenCount: null,

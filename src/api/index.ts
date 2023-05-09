@@ -1,6 +1,11 @@
 import type {
   AdminListItem,
-  ClassResponse, CreateAdminBody, CurrentUser, SystemInfo, SystemInfoResponse,
+  ClassResponse,
+  CreateAdminBody,
+  CurrentUser, GenerateTokensBodyItem,
+  GenerateTokensResponseItem,
+  SystemInfo,
+  SystemInfoResponse,
 } from 'src/api/types';
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { UserManager, useUserManager } from 'src/composables/user-manager';
@@ -132,6 +137,11 @@ export class API {
 
   async signOut() {
     await this.instance.post('admin/logout');
+  }
+
+  async generateTokens(body: GenerateTokensBodyItem[]) {
+    const response = await this.instance.post<GenerateTokensResponseItem[]>('admin/tokens/generate', body);
+    return response.data;
   }
 }
 
