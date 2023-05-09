@@ -8,3 +8,7 @@ status = 301
 from = "/*"
 to = "/index.html"
 status = 200
+
+[dev]
+port = 8802
+publish = "dist/spa"
