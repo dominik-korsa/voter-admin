@@ -19,6 +19,7 @@
         no-caps
         label="Idź do strony głosowania"
         class="col-filler"
+        href="/"
       />
       <q-separator vertical />
       <q-btn
