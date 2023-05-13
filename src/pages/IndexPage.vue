@@ -13,10 +13,10 @@
       />
     </home-card>
 
-    <template v-if="systemInfo.state === 'ready' && systemInfo.data.provisioned">
-      <class-list :classes="systemInfo.data.classes" />
-      <print-card />
-    </template>
+    <class-list
+      v-if="systemInfo.state === 'ready' && 'classes' in systemInfo.data"
+      :classes="systemInfo.data.classes"
+    />
 
     <admin-list />
   </q-page>
@@ -29,7 +29,6 @@ import { SystemInfo } from 'src/api/types';
 import { useLoadingState } from 'src/composables/loading';
 import { useAPI } from 'src/api';
 import SystemInfoCard from 'components/SystemInfoCard.vue';
-import PrintCard from 'components/PrintCard.vue';
 import ClassList from 'components/ClassList.vue';
 import SignedInUserCard from 'components/SignedInUserCard.vue';
 import HomeCard from 'components/HomeCard.vue';
@@ -40,7 +39,6 @@ export default defineComponent({
     HomeCard,
     SignedInUserCard,
     ClassList,
-    PrintCard,
     SystemInfoCard,
     AdminList,
   },

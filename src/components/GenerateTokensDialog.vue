@@ -2,6 +2,7 @@
   <q-dialog
     :model-value="modelValue"
     @update:model-value="setVisible"
+    :persistent="loading"
   >
     <q-card class="generate-tokens-dialog">
       <q-form @submit.prevent="submit" class="column no-wrap">
@@ -9,29 +10,37 @@
           Wygeneruj kody do głosowania
         </q-card-section>
         <q-separator />
-        <q-list padding class="overflow-auto" dense>
-          <q-item v-for="(item, i) in classes" :key="item.class">
-            <q-item-section class="generate-tokens-dialog__class-name">
-              Klasa <b>{{ item.name }}</b>:
-            </q-item-section>
-            <q-item-section>
-              <q-input
-                :model-value="getCountInput(item.class)"
-                @update:model-value="setCount(item.class, $event)"
-                :autofocus="i === 0"
-                filled
-                type="number"
-                min="0"
-                max="50"
-                dense
-                :label="`Liczba kodów dla klasy ${item.name}`"
-              />
-            </q-item-section>
-          </q-item>
-        </q-list>
+        <q-item>
+          <q-item-section>
+            <q-select
+              v-model="classSelection"
+              label="Klasa"
+              autofocus
+              filled
+              :options="classes"
+              :option-label="option => `Klasa ${option.name}`"
+              :option-value="option => option.class"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-input
+              v-model.number="number"
+              label="Liczba kodów"
+              filled
+              type="number"
+              min="0"
+              max="50"
+            />
+          </q-item-section>
+        </q-item>
         <q-separator />
         <q-card-section class="row justify-end">
-          <q-btn flat color="primary" @click="setVisible(false)">
+          <q-btn
+            flat
+            color="primary"
+            :disable="loading"
+            @click="setVisible(false)"
+          >
             Anuluj
           </q-btn>
           <q-btn
@@ -51,13 +60,12 @@
 </template>
 
 <script lang="ts">
-import { useAPI } from 'src/api';
 import {
-  computed,
-  defineComponent, PropType, reactive, ref, watch,
+  computed, defineComponent, PropType, ref, watch,
 } from 'vue';
 import { useQuasar } from 'quasar';
-import { ClassResponse, GenerateTokensBodyItem } from 'src/api/types';
+import { ClassResponse } from 'src/api/types';
+import { useAPI } from 'src/api';
 
 export default defineComponent({
   props: {
@@ -73,42 +81,39 @@ export default defineComponent({
     const quasar = useQuasar();
 
     const loading = ref(false);
-    const inputMap = reactive(new Map<string, number>());
+    const number = ref(0);
+    const classSelection = ref<ClassResponse | null>(null);
 
     watch(() => props.modelValue, (value) => {
-      if (!value) inputMap.clear();
+      if (value) return;
+      number.value = 0;
     });
-
-    const getCount = (key: string) => inputMap.get(key) ?? 0;
     const setVisible = (visible: boolean) => emit('update:modelValue', visible);
 
-    const requestBody = computed<GenerateTokensBodyItem[]>(
-      () => props.classes
-        .map((item) => ({
-          class: item.class,
-          number: getCount(item.class),
-        }))
-        .filter((item) => item.number > 0),
-    );
-    const valid = computed(() => requestBody.value.length > 0);
+    const valid = computed(() => classSelection.value && number.value > 0);
 
     return ({
-      inputMap,
       setVisible,
       loading,
       valid,
-      getCountInput: (key: string) => getCount(key).toString(10),
-      setCount: (key: string, value: string) => {
-        inputMap.set(key, parseInt(value, 10));
-      },
+      number,
+      classSelection,
       submit: async () => {
         if (loading.value) return;
-        if (!valid.value) return;
+        if (!valid.value || !classSelection.value) return;
         loading.value = true;
         try {
-          const result = await api.generateTokens(requestBody.value);
-          console.log(result);
-          // TODO: Redirect to token list
+          const result = await api.generateTokens(classSelection.value.class, number.value);
+          const win = window.open(result.pdfUrl, '_blank');
+          win?.focus();
+          if (!win) {
+            quasar.notify({
+              message: `Wygenerowano kody <a href="${result.pdfUrl}">Pobierz</a>`,
+              timeout: undefined,
+              closeBtn: true,
+            });
+          }
+          setVisible(false);
         } catch (error) {
           console.error(error);
           quasar.notify({
@@ -126,13 +131,5 @@ export default defineComponent({
 <style lang="scss">
 .generate-tokens-dialog {
   width: 350px;
-
-  .generate-tokens-dialog__class-name {
-    display: block;
-    min-width: 64px;
-    flex-grow: 0;
-    flex-basis: fit-content;
-    align-self: center;
-  }
 }
 </style>

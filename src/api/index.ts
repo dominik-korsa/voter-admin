@@ -2,8 +2,8 @@ import type {
   AdminListItem,
   ClassResponse,
   CreateAdminBody,
-  CurrentUser, GenerateTokensBodyItem,
-  GenerateTokensResponseItem,
+  CurrentUser,
+  GenerateTokensResponse,
   SystemInfo,
   SystemInfoResponse,
 } from 'src/api/types';
@@ -139,8 +139,11 @@ export class API {
     await this.instance.post('admin/logout');
   }
 
-  async generateTokens(body: GenerateTokensBodyItem[]) {
-    const response = await this.instance.post<GenerateTokensResponseItem[]>('admin/tokens/generate', body);
+  async generateTokens(classId: string, number: number) {
+    const response = await this.instance.post<GenerateTokensResponse>('admin/tokens/generate', {
+      class: classId,
+      number,
+    });
     return response.data;
   }
 }

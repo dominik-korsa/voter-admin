@@ -50,12 +50,11 @@ export interface CreateAdminBody {
   password: string;
 }
 
-export interface GenerateTokensBodyItem {
+export interface GenerateTokensResponse {
   class: string;
-  number: number;
-}
-
-export interface GenerateTokensResponseItem {
-  class: string;
+  className: string;
+  pdfUrl: string;
   tokens: string[];
+  timestamp: number;
+  batchUuid: string;
 }
