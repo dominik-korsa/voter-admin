@@ -40,7 +40,6 @@
               <q-list>
                 <q-item
                   clickable
-                  :disable="isSelf(admin.uuid)"
                   @click="deleteAdmin(admin)"
                 >
                   <q-item-section side>
