@@ -1,5 +1,4 @@
 export interface CurrentUser {
-  nonce: string;
   username: string;
   email: string;
   uuid: string;

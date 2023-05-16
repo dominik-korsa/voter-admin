@@ -42,6 +42,7 @@ import { useAPI } from 'src/api';
 import { defineComponent, PropType, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { AdminListItem } from 'src/api/types';
+import { useUserManager } from 'src/composables/user-manager';
 
 export default defineComponent({
   props: {
@@ -59,6 +60,7 @@ export default defineComponent({
   setup: (props, { emit }) => {
     const api = useAPI();
     const quasar = useQuasar();
+    const userManager = useUserManager();
 
     const loading = ref(false);
 
@@ -76,6 +78,7 @@ export default defineComponent({
         try {
           await api.deleteAdmin(props.admin.uuid);
           await props.updateAdminList();
+          await userManager.update();
           close();
         } catch (error) {
           console.error(error);

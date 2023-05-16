@@ -38,12 +38,15 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
+    let update: () => Promise<void> = async () => { /* Empty function */ };
+
     const user = ref<CurrentUser | null>(null);
     const userManager = reactive({
       user: readonly(user),
       replaceUser: (value: CurrentUser | null) => {
         user.value = value;
       },
+      update: () => update(),
     });
     provide(userManagerInjectionKey, userManager);
 
@@ -59,6 +62,11 @@ export default defineComponent({
         );
       }
     });
+
+    update = async () => {
+      if (loadingState.value.state !== 'ready') return;
+      await loadingState.value.reload();
+    };
 
     const getRedirect = (to: RouteLocation) => {
       if (loadingState.value.state !== 'ready') return null;

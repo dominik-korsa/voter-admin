@@ -4,6 +4,7 @@ import { CurrentUser } from 'src/api/types';
 export interface UserManager {
   user: Readonly<CurrentUser> | null,
   replaceUser: (user: CurrentUser | null) => void;
+  update: () => Promise<void>;
 }
 
 export const userManagerInjectionKey = Symbol('User manager injection') as InjectionKey<Readonly<UserManager>>;
