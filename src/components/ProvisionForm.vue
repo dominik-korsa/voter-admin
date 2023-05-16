@@ -175,11 +175,12 @@ export default defineComponent({
             .flatMap((value): number[] | null => {
               const match = rangeRegex.exec(value);
               if (match === null) return null;
-              const from = parseInt(match[1], 10);
+              let from = parseInt(match[1], 10);
               let to = parseInt(match[2] ?? match[1], 10) + 1;
               if (Number.isNaN(from) || Number.isNaN(to)) return null;
               if (to <= from || from < 0) return null;
-              to = Math.min(to, from + 20);
+              to = Math.min(to, from + 20, 1000);
+              from = Math.max(from, 0);
               return _.range(from, to);
             })
             .filter(notNullish),
