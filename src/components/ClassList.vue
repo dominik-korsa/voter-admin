@@ -36,15 +36,27 @@
       </q-item>
     </q-list>
     <q-separator />
-    <q-btn
-      stretch
-      class="full-width"
-      flat
-      label="Zobacz listę kodów do głosowania"
-      color="primary"
-      no-caps
-      :to="tokensTo"
-    />
+    <div class="row no-wrap">
+      <q-btn
+        stretch
+        class="col-filler"
+        flat
+        label="Zobacz listę kodów do głosowania"
+        color="primary"
+        no-caps
+        :to="tokensTo"
+      />
+      <q-separator vertical />
+      <q-btn
+        stretch
+        class="col-filler"
+        flat
+        label="Zobacz wyniki"
+        color="primary"
+        no-caps
+        disable
+      />
+    </div>
   </home-card>
 </template>
 
