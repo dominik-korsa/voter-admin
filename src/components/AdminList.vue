@@ -60,17 +60,29 @@
       </q-item>
     </q-list>
     <q-separator />
-    <q-btn
-      label="Dodaj administratora"
-      color="primary"
-      stretch
-      class="full-width"
-      flat
-      no-caps
-      icon="add"
-      :disable="adminList.state !== 'ready'"
-      @click="registerDialogVisible = true"
-    />
+    <div class="row no-wrap">
+      <q-btn
+        label="Dodaj administratora"
+        color="primary"
+        stretch
+        class="col-filler"
+        flat
+        no-caps
+        :disable="adminList.state !== 'ready'"
+        @click="registerDialogVisible = true"
+      />
+      <q-separator vertical />
+      <q-btn
+        label="Wyloguj wszystkich"
+        color="negative"
+        stretch
+        class="col-filler"
+        flat
+        no-caps
+        :loading="logoutAllLoading"
+        @click="logoutAll()"
+      />
+    </div>
     <register-admin-dialog
       v-model="registerDialogVisible"
       :update-admin-list="updateList"
@@ -97,12 +109,14 @@ import { AdminListItem } from 'src/api/types';
 import DeleteAdminDialog from 'components/DeleteAdminDialog.vue';
 import ChangePasswordDialog from 'components/ChangePasswordDialog.vue';
 import HomeCard from 'components/HomeCard.vue';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   components: {
     HomeCard, ChangePasswordDialog, DeleteAdminDialog, RegisterAdminDialog,
   },
   setup: () => {
+    const quasar = useQuasar();
     const api = useAPI();
     const userManager = useUserManager();
 
@@ -119,6 +133,7 @@ export default defineComponent({
     const registerDialogVisible = ref(false);
     const deletedAdmin = ref<AdminListItem | null>(null);
     const passwordChangedAdmin = ref<AdminListItem | null>(null);
+    const logoutAllLoading = ref(false);
 
     return ({
       adminList,
@@ -131,6 +146,22 @@ export default defineComponent({
       },
       changePassword: async (admin: AdminListItem) => {
         passwordChangedAdmin.value = admin;
+      },
+      logoutAllLoading,
+      logoutAll: async () => {
+        logoutAllLoading.value = true;
+        try {
+          await api.logoutAllSquared();
+          await userManager.update();
+        } catch (error) {
+          console.error(error);
+          quasar.notify({
+            type: 'negative',
+            message: 'Podczas wylogowywania wszystkich użytkowników wystąpił nieoczekiwany błąd',
+          });
+          await userManager.update().catch();
+        }
+        logoutAllLoading.value = false;
       },
       updateList: async () => {
         if (adminList.value.state !== 'ready') return;

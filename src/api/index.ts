@@ -151,6 +151,10 @@ export class API {
     const response = await this.instance.get<TokenBatch[]>('admin/tokens/get');
     return response.data;
   }
+
+  async logoutAllSquared() {
+    await this.instance.post('admin/logoutallall');
+  }
 }
 
 export const useAPI = (
