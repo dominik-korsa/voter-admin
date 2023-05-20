@@ -40,32 +40,28 @@
       stretch
       class="full-width"
       flat
-      label="Wygeneruj kody do głosowania"
+      label="Zobacz listę kodów do głosowania"
       color="primary"
       no-caps
-      @click="tokensDialogVisible = true"
-    />
-    <generate-tokens-dialog
-      v-model="tokensDialogVisible"
-      :classes="classes"
+      :to="tokensTo"
     />
   </home-card>
 </template>
 
 <script lang="ts">
 import {
-  computed, defineComponent, PropType, ref,
+  computed, defineComponent, PropType,
 } from 'vue';
 import { ClassResponse } from 'src/api/types';
 import HomeCard from 'components/HomeCard.vue';
-import GenerateTokensDialog from 'components/GenerateTokensDialog.vue';
+import { routeNames } from 'src/router/route-constants';
 
 interface ClassItem extends ClassResponse {
   tokenCount: null | { used: number; unused: number; };
 }
 
 export default defineComponent({
-  components: { GenerateTokensDialog, HomeCard },
+  components: { HomeCard },
   props: {
     classes: {
       type: Array as PropType<ClassResponse[]>,
@@ -73,11 +69,13 @@ export default defineComponent({
     },
   },
   setup: (props) => ({
-    tokensDialogVisible: ref(false),
     classItems: computed<ClassItem[] | null>(() => props.classes.map((item): ClassItem => ({
       ...item,
       tokenCount: null,
     }))),
+    tokensTo: {
+      name: routeNames.tokens,
+    },
   }),
 });
 </script>

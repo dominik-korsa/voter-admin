@@ -64,7 +64,7 @@ import {
   computed, defineComponent, PropType, ref, watch,
 } from 'vue';
 import { useQuasar } from 'quasar';
-import { ClassResponse } from 'src/api/types';
+import { ClassResponse, GenerateTokensResponse } from 'src/api/types';
 import { useAPI } from 'src/api';
 
 export default defineComponent({
@@ -72,6 +72,10 @@ export default defineComponent({
     modelValue: Boolean,
     classes: {
       type: Array as PropType<ClassResponse[]>,
+      required: true,
+    },
+    addBatch: {
+      type: Function as PropType<(batch: GenerateTokensResponse) => Promise<void> | void>,
       required: true,
     },
   },
@@ -104,15 +108,8 @@ export default defineComponent({
         loading.value = true;
         try {
           const result = await api.generateTokens(classSelection.value.class, number.value);
-          const win = window.open(result.pdfUrl, '_blank');
-          win?.focus();
-          if (!win) {
-            quasar.notify({
-              message: `Wygenerowano kody <a href="${result.pdfUrl}">Pobierz</a>`,
-              timeout: undefined,
-              closeBtn: true,
-            });
-          }
+          window.open(result.pdfUrl, '_blank')?.focus();
+          await props.addBatch(result);
           setVisible(false);
         } catch (error) {
           console.error(error);

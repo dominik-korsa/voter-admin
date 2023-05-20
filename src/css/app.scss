@@ -27,3 +27,20 @@ body {
   box-shadow: 5px 5px 0 #0002;
   border: 1px solid $separator-color;
 }
+
+.select-all {
+  user-select: all;
+  cursor: pointer;
+}
+
+.border-top {
+  border-top: 1px solid $separator-color;
+}
+
+.border-bottom-optional:not(:last-child) {
+  border-bottom: 1px solid $separator-color;
+}
+
+.font-monospace {
+  font-family: 'Space Mono', monospace;
+}

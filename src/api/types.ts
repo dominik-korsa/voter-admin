@@ -11,14 +11,6 @@ export interface ClassResponse {
   logos: readonly number[];
 }
 
-export interface TokenListItem {
-  class: string;
-  name: string;
-  tokens: string[];
-  usedTokens: string[];
-  unusedTokens: string[];
-}
-
 export interface SystemInfoResponseReset {
   provisioned: false;
   voting: false;
@@ -56,4 +48,17 @@ export interface GenerateTokensResponse {
   tokens: string[];
   timestamp: number;
   batchUuid: string;
+}
+
+export interface Token {
+  token: string;
+  used: boolean;
+}
+
+export interface TokenBatch {
+  batchUuid: string;
+  class: string;
+  className: string;
+  timestamp: number;
+  tokens: Token[];
 }
