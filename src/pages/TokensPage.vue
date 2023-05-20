@@ -1,23 +1,59 @@
 <template>
   <q-page padding class="tokens-page">
-    <router-link :to="homeTo">
-      Powrót
-    </router-link>
-    <template v-if="systemInfo.state === 'ready'">
-      <q-btn
-        label="Wygeneruj kody do głosowania"
-        color="primary"
-        no-caps
-        @click="tokensDialogVisible = true"
+    <q-card>
+      <q-toolbar>
+        <q-btn
+          :to="homeTo"
+          aria-label="Powrót"
+          flat
+          round
+          icon="arrow_back"
+        >
+          <q-tooltip>Powrót</q-tooltip>
+        </q-btn>
+        <q-toolbar-title>Lista kodów do głosowania</q-toolbar-title>
+        <template v-if="systemInfo.state === 'ready' && 'classes' in systemInfo.data">
+          <q-btn
+            label="Wygeneruj kody"
+            color="primary"
+            no-caps
+            outline
+            @click="tokensDialogVisible = true"
+          />
+          <generate-tokens-dialog
+            v-model="tokensDialogVisible"
+            :classes="systemInfo.data.classes"
+            :add-batch="addBatch"
+          />
+        </template>
+      </q-toolbar>
+      <q-linear-progress
+        v-if="systemInfo.state === 'loading' || batches.state === 'loading'"
+        indeterminate
       />
-      <generate-tokens-dialog
-        v-if="'classes' in systemInfo.data"
-        v-model="tokensDialogVisible"
-        :classes="systemInfo.data.classes"
-        :add-batch="addBatch"
-      />
-    </template>
-    <q-card v-if="batches.state === 'ready'">
+    </q-card>
+    <q-card
+      v-if="systemInfo.state === 'error' || batches.state === 'error'"
+      class="q-mt-lg text-negative"
+    >
+      <q-card-section class="row items-center">
+        <q-icon size="md" name="error" left />
+        <div>
+          Wystąpił nieoczekiwany błąd
+        </div>
+      </q-card-section>
+    </q-card>
+    <q-card v-if="batches.state === 'ready'" class="q-mt-lg">
+      <q-card-section v-if="batches.data.length === 0">
+        <template v-if="systemInfo.state === 'ready' && !systemInfo.data.provisioned">
+          System jest zresetowany,
+          <router-link :to="homeTo">wróć</router-link>
+          aby go skonfigurować
+        </template>
+        <template v-else>
+          Nie wygenerowano żadnych kodów do głosowania
+        </template>
+      </q-card-section>
       <q-expansion-item
         v-for="batch in batches.data"
         :key="batch.uuid"
@@ -66,7 +102,7 @@
           </div>
           <div class="q-pa-md">
             <q-chip
-              v-for="token in batch.usedTokens"
+              v-for="{ token } in batch.usedTokens"
               :key="token"
               text-color="green-9"
               :ripple="false"
