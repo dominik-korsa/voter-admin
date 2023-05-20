@@ -29,7 +29,7 @@
               filled
               type="number"
               min="0"
-              max="50"
+              max="48"
             />
           </q-item-section>
         </q-item>
