@@ -52,6 +52,7 @@ import { useAPI } from 'src/api';
 import { defineComponent, PropType, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { AdminListItem } from 'src/api/types';
+import { useUserManager } from 'src/composables/user-manager';
 
 export default defineComponent({
   props: {
@@ -65,6 +66,7 @@ export default defineComponent({
   setup: (props, { emit }) => {
     const api = useAPI();
     const quasar = useQuasar();
+    const userManager = useUserManager();
 
     const password = ref('');
     const loading = ref(false);
@@ -90,6 +92,7 @@ export default defineComponent({
         loading.value = true;
         try {
           await api.changePassword(props.admin.uuid, password.value.trim());
+          await userManager.update();
           close();
         } catch (error) {
           console.error(error);
