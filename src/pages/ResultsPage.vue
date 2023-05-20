@@ -55,12 +55,57 @@
         </template>
         <template #body-cell-place="{ value }">
           <td class="text-right results__logo-place">
-            <span class="row items-center justify-end">
+            <span class="row items-center justify-end no-wrap">
               <span class="emoji" v-if="value === 1">🥇</span>
               <span class="emoji" v-if="value === 2">🥈</span>
               <span class="emoji" v-if="value === 3">🥉</span>
-              <span class="text"><b>{{ value }}.</b> miejsce</span>
+              <span class="text">
+                <b>{{ value }}.</b>
+                <span class="label">miejsce</span>
+              </span>
             </span>
+          </td>
+        </template>
+        <template #body-cell-points5="{ value }">
+          <td class="text-right results__points-cell cell-grow">
+            <span>
+              <b>{{ value }}</b>
+              <span class="label">x 5 pkt.</span>
+            </span>
+            <div class="results__cell-sign">+</div>
+          </td>
+        </template>
+        <template #body-cell-points3="{ value }">
+          <td class="results__points-cell cell-grow">
+            <span>
+              <b>{{ value }}</b>
+              <span class="label">x 3 pkt.</span>
+            </span>
+            <div class="results__cell-sign">+</div>
+          </td>
+        </template>
+        <template #body-cell-points1="{ value }">
+          <td class="results__points-cell cell-grow">
+            <span>
+              <b>{{ value }}</b>
+              <span class="label">x 1 pkt.</span>
+            </span>
+            <div class="results__cell-sign">+</div>
+          </td>
+        </template>
+        <template #body-cell-pointsNeg1="{ value }">
+          <td class="results__points-cell cell-grow">
+            <span>
+              <b>{{ value }}</b>
+              <span class="label">x -1 pkt.</span>
+            </span>
+            <div class="results__cell-sign">=</div>
+          </td>
+        </template>
+        <template #body-cell-pointsTotal="{ value }">
+          <td class="text-right cell-grow">
+            <b>{{ value }}</b>
+            <span class="label">pkt.</span>
           </td>
         </template>
       </q-table>
@@ -119,9 +164,42 @@ const columns = ref<QTableColumn<Row>[]>([
     field: 'place',
   },
   {
-    label: 'Łączna liczba punktów',
+    label: '5 pkt.',
+    name: 'points5',
+    field: 'points5',
+    sortable: true,
+    sortOrder: 'da',
+    headerClasses: 'cell-grow',
+  },
+  {
+    label: '3 pkt.',
+    name: 'points3',
+    field: 'points3',
+    sortable: true,
+    sortOrder: 'da',
+    headerClasses: 'cell-grow',
+  },
+  {
+    label: '1 pkt.',
+    name: 'points1',
+    field: 'points1',
+    sortable: true,
+    sortOrder: 'da',
+    headerClasses: 'cell-grow',
+  },
+  {
+    label: '-1 pkt.',
+    name: 'pointsNeg1',
+    field: 'pointsNeg1',
+    sortable: true,
+    sortOrder: 'da',
+    headerClasses: 'cell-grow',
+  },
+  {
+    label: 'Razem',
     name: 'pointsTotal',
     field: 'pointsTotal',
+    headerClasses: 'cell-grow',
   },
 ]);
 
@@ -136,10 +214,11 @@ const results = useLoadingState(async () => mapWithPrev<ResultsLogo, Row>(
     className: logo.className,
     place: (prev !== undefined && prev.pointsTotal === logo.points) ? prev.place : index + 1,
     pointsTotal: logo.points,
-    points5: 0,
-    points3: 0,
-    points1: 0,
-    pointsNeg1: 0,
+    // TODO: Use real data
+    points5: Math.floor(Math.random() * 20),
+    points3: Math.floor(Math.random() * 20),
+    points1: Math.floor(Math.random() * 20),
+    pointsNeg1: Math.floor(Math.random() * 20),
   }),
 ));
 
@@ -168,6 +247,25 @@ const reload = async () => {
 
   .results__table {
     font-variant-numeric: tabular-nums;
+
+    td, th {
+      padding-left: 8px;
+      padding-right: 8px;
+
+      &:not(.cell-grow) {
+        width: 0;
+      }
+
+      &:last-child {
+        padding-right: 16px;
+      }
+    }
+
+    .label {
+      font-size: 0.8em;
+      margin-left: 3px;
+      font-weight: 300;
+    }
   }
 
   .results__logo-number {
@@ -191,10 +289,28 @@ const reload = async () => {
         font-size: 1.7em;
         margin-right: 3px;
       }
+    }
+  }
 
-      span {
-        display: block;
-      }
+  .results__points-cell {
+    & > span {
+      display: block;
+      text-align: center;
+    }
+
+    .results__cell-sign {
+      position: absolute;
+      right: -8px;
+      top: calc(50% - 8px);
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      text-align: center;
+      user-select: none;
+      pointer-events: none;
+      font-size: 1.3em;
+      font-weight: 300;
+      opacity: 25%;
     }
   }
 }
