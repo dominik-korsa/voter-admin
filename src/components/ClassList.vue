@@ -54,7 +54,7 @@
         label="Zobacz wyniki"
         color="primary"
         no-caps
-        disable
+        :to="resultsTo"
       />
     </div>
   </home-card>
@@ -87,6 +87,9 @@ export default defineComponent({
     }))),
     tokensTo: {
       name: routeNames.tokens,
+    },
+    resultsTo: {
+      name: routeNames.results,
     },
   }),
 });

@@ -17,6 +17,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/TokensPage.vue'),
       },
       {
+        name: routeNames.results,
+        path: 'wyniki/',
+        component: () => import('pages/ResultsPage.vue'),
+      },
+      {
         name: routeNames.login,
         path: 'zaloguj-sie/',
         component: () => import('pages/LoginPage.vue'),

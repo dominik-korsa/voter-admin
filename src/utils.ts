@@ -8,3 +8,14 @@ export function firstNotNull<TResult, TArray>(
   }
   return null;
 }
+
+export function mapWithPrev<Src, Target>(
+  src: Src[],
+  callback: (item: Src, index: number, prev: Target | undefined) => Target,
+) {
+  let prevResult: Target | undefined;
+  return src.map((item, index) => {
+    prevResult = callback(item, index, prevResult);
+    return prevResult;
+  });
+}

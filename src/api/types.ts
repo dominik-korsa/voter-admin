@@ -62,3 +62,10 @@ export interface TokenBatch {
   timestamp: number;
   tokens: Token[];
 }
+
+export interface ResultsLogo {
+  number: number;
+  class: string;
+  className: string;
+  points: number;
+}

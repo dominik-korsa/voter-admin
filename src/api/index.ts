@@ -3,7 +3,7 @@ import type {
   ClassResponse,
   CreateAdminBody,
   CurrentUser,
-  GenerateTokensResponse,
+  GenerateTokensResponse, ResultsLogo,
   SystemInfo,
   SystemInfoResponse, TokenBatch,
 } from 'src/api/types';
@@ -149,6 +149,11 @@ export class API {
 
   async getTokenBatches() {
     const response = await this.instance.get<TokenBatch[]>('admin/tokens/get');
+    return response.data;
+  }
+
+  async getResults() {
+    const response = await this.instance.get<ResultsLogo[]>('admin/voting/results/get');
     return response.data;
   }
 
