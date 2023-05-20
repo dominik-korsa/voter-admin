@@ -3,3 +3,7 @@ export const routeNames = {
   home: Symbol('Home route'),
   tokens: Symbol('Tokens route'),
 } as const;
+
+export const routeQueryFields = {
+  loginRedirect: 'r',
+};

@@ -13,12 +13,12 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: routeNames.tokens,
-        path: 'tokens/',
+        path: 'kody-do-glosowania/',
         component: () => import('pages/TokensPage.vue'),
       },
       {
         name: routeNames.login,
-        path: 'login/',
+        path: 'zaloguj-sie/',
         component: () => import('pages/LoginPage.vue'),
       },
     ],

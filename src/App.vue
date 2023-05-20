@@ -25,7 +25,7 @@ import {
 import {
   RouteLocation, useRoute, useRouter,
 } from 'vue-router';
-import { routeNames } from 'src/router/route-constants';
+import { routeNames, routeQueryFields } from 'src/router/route-constants';
 import { until } from '@vueuse/core';
 import { LoadingError, useLoadingState } from 'src/composables/loading';
 import { useAPI } from 'src/api';
@@ -73,15 +73,16 @@ export default defineComponent({
 
       const isLoginPage = to.matched.some((matched) => matched.name === routeNames.login);
       if (isLoginPage && user.value !== null) {
+        const redirect = to.query[routeQueryFields.loginRedirect];
         return {
-          path: typeof to.query.backTo === 'string' ? to.query.backTo : '/',
+          path: typeof redirect === 'string' ? redirect : '/',
         };
       }
       if (!isLoginPage && user.value === null) {
         return {
           name: routeNames.login,
           query: {
-            backTo: to.path,
+            [routeQueryFields.loginRedirect]: to.path,
           },
         };
       }
