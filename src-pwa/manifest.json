@@ -1,0 +1,11 @@
+{
+  "orientation": "portrait",
+  "background_color": "#F5C800",
+  "theme_color": "#F5C800",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg"
+    }
+  ]
+}
