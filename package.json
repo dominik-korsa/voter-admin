@@ -1,8 +1,8 @@
 {
   "name": "voter-admin",
   "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "Konkurs logo - zarządzanie",
+  "description": "Panel administratora do konkursu na logo",
+  "productName": "Konkurs logo - admin",
   "author": "Dominik Korsa <dominik.korsa@gmail.com>",
   "private": true,
   "scripts": {
