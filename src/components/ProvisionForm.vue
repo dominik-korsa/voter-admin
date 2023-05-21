@@ -78,12 +78,12 @@
       </q-card-section>
     </div>
     <q-separator />
-    <q-card-section class="row items-baseline">
-      <div class="text-negative text-left col-grow" v-if="error !== null">
+    <q-card-section class="row items-baseline no-wrap">
+      <div class="text-negative text-left col-filler" v-if="error !== null">
         <q-icon name="error" size="xs" left />
         {{ error }}
       </div>
-      <div class="col-grow" v-else />
+      <div class="col-filler" v-else />
       <q-btn
         color="primary"
         label="Zapisz"
@@ -162,6 +162,12 @@ export default defineComponent({
           if (prev !== undefined) return `Logo ${chip} powtarza się w klasach ${prev.name.trim()} i ${el.name.trim()}`;
           numbersMap.set(chip, el);
         }));
+      },
+      () => {
+        const totalLogos = classes.value.reduce((prev, el) => prev + el.logos.length, 0);
+        return firstDefined(classes.value, (el) => {
+          if (totalLogos - el.logos.length < 4) return `Nie ma wystarczającej liczby logo bez klasy ${el.name}`;
+        });
       },
     ));
 
