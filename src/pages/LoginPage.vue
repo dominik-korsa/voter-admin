@@ -21,13 +21,21 @@
             filled
           />
         </q-card-section>
-        <q-card-section class="row justify-end">
+        <q-card-section class="row justify-end q-py-sm">
+          <q-btn
+            href="/"
+            label="Wróć do głosowania"
+            no-caps
+            flat
+            class="q-my-xs"
+          />
           <q-btn
             type="submit"
             label="Zaloguj się"
             color="primary"
             no-caps
             unelevated
+            class="q-ml-xs q-my-xs"
             :loading="loading"
           />
         </q-card-section>
