@@ -65,7 +65,7 @@ import {
 } from 'vue';
 import { useQuasar } from 'quasar';
 import { ClassResponse, GenerateTokensResponse } from 'src/api/types';
-import { API, useAPI } from 'src/api';
+import { useAPI } from 'src/api';
 
 export default defineComponent({
   props: {
@@ -108,7 +108,6 @@ export default defineComponent({
         loading.value = true;
         try {
           const result = await api.generateTokens(classSelection.value.class, number.value);
-          window.open(API.getPdfUrl(result.batchUuid), '_blank')?.focus();
           await props.addBatch(result);
           setVisible(false);
         } catch (error) {
