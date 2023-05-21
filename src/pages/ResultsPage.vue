@@ -2,37 +2,42 @@
   <q-page padding class="results">
     <q-card>
       <q-toolbar>
-        <q-btn
-          :to="homeTo"
-          aria-label="Powrót"
-          flat
-          round
-          icon="arrow_back"
-        >
-          <q-tooltip>Powrót</q-tooltip>
-        </q-btn>
-        <q-toolbar-title>Wyniki głosowania</q-toolbar-title>
-        <q-btn
-          label="Odśwież"
-          icon="refresh"
-          color="primary"
-          no-caps
-          outline
-          :loading="reloadLoading"
-          @click="reload()"
-          :disable="results.state !== 'ready'"
-        />
-        <q-btn
-          label="Pobierz plik CSV"
-          icon="download"
-          color="primary"
-          no-caps
-          outline
-          href="/api/admin/voting/results/results.csv"
-          target="_blank"
-          download
-          class="q-ml-sm"
-        />
+        <div class="row items-center col-filler">
+          <q-btn
+            :to="homeTo"
+            aria-label="Powrót"
+            flat
+            round
+            icon="arrow_back"
+          >
+            <q-tooltip>Powrót</q-tooltip>
+          </q-btn>
+          <q-toolbar-title>Wyniki głosowania</q-toolbar-title>
+        </div>
+        <div class="row justify-center results__buttons">
+          <q-btn
+            label="Odśwież"
+            icon="refresh"
+            color="primary"
+            no-caps
+            outline
+            :loading="reloadLoading"
+            @click="reload()"
+            :disable="results.state !== 'ready'"
+            class="q-my-xs"
+          />
+          <q-btn
+            label="Pobierz plik CSV"
+            icon="download"
+            color="primary"
+            no-caps
+            outline
+            href="/api/admin/voting/results/results.csv"
+            target="_blank"
+            download
+            class="q-my-xs"
+          />
+        </div>
       </q-toolbar>
       <q-linear-progress
         v-if="results.state === 'loading'"
@@ -256,6 +261,10 @@ const reload = async () => {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+
+  .results__buttons {
+    gap: 8px;
+  }
 
   .results__table {
     font-variant-numeric: tabular-nums;
