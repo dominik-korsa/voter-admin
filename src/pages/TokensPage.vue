@@ -1,37 +1,26 @@
 <template>
   <q-page padding class="tokens-page">
-    <q-card>
-      <q-toolbar>
+    <page-toolbar
+      title="Lista kodów do głosowania"
+      :loading="systemInfo.state === 'loading' || batches.state === 'loading'"
+    >
+      <template v-if="systemInfo.state === 'ready' && 'classes' in systemInfo.data">
         <q-btn
-          :to="homeTo"
-          aria-label="Powrót"
+          label="Wygeneruj kody"
+          color="primary"
+          icon="add"
+          no-caps
           flat
-          round
-          icon="arrow_back"
-        >
-          <q-tooltip>Powrót</q-tooltip>
-        </q-btn>
-        <q-toolbar-title>Lista kodów do głosowania</q-toolbar-title>
-        <template v-if="systemInfo.state === 'ready' && 'classes' in systemInfo.data">
-          <q-btn
-            label="Wygeneruj kody"
-            color="primary"
-            no-caps
-            outline
-            @click="tokensDialogVisible = true"
-          />
-          <generate-tokens-dialog
-            v-model="tokensDialogVisible"
-            :classes="systemInfo.data.classes"
-            :add-batch="addBatch"
-          />
-        </template>
-      </q-toolbar>
-      <q-linear-progress
-        v-if="systemInfo.state === 'loading' || batches.state === 'loading'"
-        indeterminate
-      />
-    </q-card>
+          rounded
+          @click="tokensDialogVisible = true"
+        />
+        <generate-tokens-dialog
+          v-model="tokensDialogVisible"
+          :classes="systemInfo.data.classes"
+          :add-batch="addBatch"
+        />
+      </template>
+    </page-toolbar>
     <q-card
       v-if="systemInfo.state === 'error' || batches.state === 'error'"
       class="q-mt-lg text-negative"
@@ -125,7 +114,6 @@
 </style>
 
 <script setup lang="ts">
-import { routeNames } from 'src/router/route-constants';
 import GenerateTokensDialog from 'components/GenerateTokensDialog.vue';
 import { reactive, ref } from 'vue';
 import { useAPI } from 'src/api';
@@ -134,10 +122,7 @@ import { GenerateTokensResponse } from 'src/api/types';
 import TokenBatchHeader from 'components/TokenBatchHeader.vue';
 import { TokenBatch } from 'src/types';
 import RevokeTokensDialog from 'components/RevokeTokensDialog.vue';
-
-const homeTo = {
-  name: routeNames.home,
-};
+import PageToolbar from 'components/PageToolbar.vue';
 
 const api = useAPI();
 

@@ -1,49 +1,42 @@
 <template>
   <q-page padding class="results">
-    <q-card>
-      <q-toolbar>
-        <div class="row items-center col-filler">
-          <q-btn
-            :to="homeTo"
-            aria-label="Powrót"
-            flat
-            round
-            icon="arrow_back"
-          >
-            <q-tooltip>Powrót</q-tooltip>
-          </q-btn>
-          <q-toolbar-title>Wyniki głosowania</q-toolbar-title>
-        </div>
-        <div class="row justify-center results__buttons">
-          <q-btn
-            label="Odśwież"
-            icon="refresh"
-            color="primary"
-            no-caps
-            outline
-            :loading="reloadLoading"
-            @click="reload()"
-            :disable="results.state !== 'ready'"
-            class="q-my-xs"
-          />
-          <q-btn
-            label="Pobierz plik CSV"
-            icon="download"
-            color="primary"
-            no-caps
-            outline
-            href="/api/admin/voting/results/results.csv"
-            target="_blank"
-            download
-            class="q-my-xs"
-          />
-        </div>
-      </q-toolbar>
-      <q-linear-progress
-        v-if="results.state === 'loading'"
-        indeterminate
+    <page-toolbar
+      title="Wyniki głosowania"
+      :loading="results.state === 'loading'"
+    >
+      <reload-button
+        :reload="reload"
+        :disable="results.state !== 'ready'"
+        class="q-my-xs"
       />
-    </q-card>
+      <q-btn
+        v-if="$q.screen.gt.xs"
+        label="Pobierz plik CSV"
+        icon="download"
+        color="primary"
+        no-caps
+        no-wrap
+        flat
+        rounded
+        href="/api/admin/voting/results/results.csv"
+        target="_blank"
+        download
+        class="q-my-xs"
+      />
+      <q-btn
+        v-else
+        icon="download"
+        color="primary"
+        flat
+        round
+        href="/api/admin/voting/results/results.csv"
+        target="_blank"
+        download
+        class="q-my-xs"
+      >
+        <q-tooltip>Pobierz wyniki jako plik CSV</q-tooltip>
+      </q-btn>
+    </page-toolbar>
     <q-card
       v-if="results.state === 'error'"
       class="q-mt-lg text-negative"
@@ -130,16 +123,13 @@
 </template>
 
 <script setup lang="ts">
-import { routeNames } from 'src/router/route-constants';
 import { useAPI } from 'src/api';
 import { useLoadingState } from 'src/composables/loading';
 import { QTableColumn, useQuasar } from 'quasar';
 import { ref } from 'vue';
 import { ResultsLogoClass } from 'src/api/types';
-
-const homeTo = {
-  name: routeNames.home,
-};
+import ReloadButton from 'components/ReloadButton.vue';
+import PageToolbar from 'components/PageToolbar.vue';
 
 interface Row {
   index: number;
@@ -239,10 +229,8 @@ const results = useLoadingState(async () => {
   });
 });
 
-const reloadLoading = ref(false);
 const reload = async () => {
-  if (reloadLoading.value || results.value.state !== 'ready') return;
-  reloadLoading.value = true;
+  if (results.value.state !== 'ready') return;
   try {
     await results.value.reload();
   } catch (error) {
@@ -252,7 +240,6 @@ const reload = async () => {
       message: 'Nie udało się odświeżyć listy wyników',
     });
   }
-  reloadLoading.value = false;
 };
 </script>
 
@@ -261,10 +248,6 @@ const reload = async () => {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-
-  .results__buttons {
-    gap: 8px;
-  }
 
   .results__table {
     font-variant-numeric: tabular-nums;
