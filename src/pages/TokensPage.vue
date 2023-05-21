@@ -123,6 +123,11 @@ import TokenBatchHeader from 'components/TokenBatchHeader.vue';
 import { TokenBatch } from 'src/types';
 import RevokeTokensDialog from 'components/RevokeTokensDialog.vue';
 import PageToolbar from 'components/PageToolbar.vue';
+import { routeNames } from 'src/router/route-constants';
+
+const homeTo = {
+  name: routeNames.home,
+};
 
 const api = useAPI();
 
