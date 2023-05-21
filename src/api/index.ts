@@ -164,6 +164,10 @@ export class API {
   async logoutAllSquared() {
     await this.instance.post('admin/logoutallall');
   }
+
+  static getPdfUrl(batchUuid: string) {
+    return `/api/admin/tokens/pdf/${batchUuid}.pdf`;
+  }
 }
 
 export const useAPI = (

@@ -116,7 +116,7 @@
 <script setup lang="ts">
 import GenerateTokensDialog from 'components/GenerateTokensDialog.vue';
 import { reactive, ref } from 'vue';
-import { useAPI } from 'src/api';
+import { API, useAPI } from 'src/api';
 import { useLoadingState } from 'src/composables/loading';
 import { GenerateTokensResponse } from 'src/api/types';
 import TokenBatchHeader from 'components/TokenBatchHeader.vue';
@@ -146,7 +146,7 @@ const batches = useLoadingState(
           unusedTokens,
           timestamp: batch.timestamp,
           generationDate: new Date(batch.timestamp * 1000).toLocaleString(),
-          pdfUrl: `/api/admin/tokens/pdf/${batch.batchUuid}.pdf`,
+          pdfUrl: API.getPdfUrl(batch.batchUuid),
         };
       })
       .sort((lhs, rhs) => rhs.timestamp - lhs.timestamp);
