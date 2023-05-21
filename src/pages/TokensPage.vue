@@ -109,7 +109,6 @@
               class="select-all font-monospace"
             >
               {{ token }}
-              <q-tooltip>Kod wykorzystany</q-tooltip>
             </q-chip>
             <q-chip
               v-for="{ token } in batch.unusedTokens"
@@ -119,7 +118,6 @@
               class="select-all font-monospace"
             >
               {{ token }}
-              <q-tooltip>Kod niewykorzystany</q-tooltip>
             </q-chip>
           </div>
         </div>
