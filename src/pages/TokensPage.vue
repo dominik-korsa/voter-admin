@@ -64,22 +64,7 @@
         v-memo="[isExpanded(batch.uuid), batch]"
       >
         <template #header>
-          <q-item-section class="col-grow">
-            <q-item-label>
-              Kody dla klasy <b>{{ batch.className }}</b>
-            </q-item-label>
-            <q-item-label caption>
-              Wygenerowane <b>{{ batch.generationDate }}</b>
-            </q-item-label>
-            <q-item-label caption>
-              <div>
-                <span class="text-green-9"><b>{{ batch.usedTokens.length }}</b> użytych</span>,
-                <span class="text-red-9">
-                  <b>{{ batch.unusedTokens.length }}</b> nieużytych
-                </span>
-              </div>
-            </q-item-label>
-          </q-item-section>
+          <token-batch-header class="col-grow" :batch="batch" />
         </template>
         <div class="border-top">
           <div class="q-px-md q-pt-md row justify-center items-center q-gutter-sm">
@@ -96,8 +81,8 @@
               outline
               color="negative"
               no-caps
-              disable
               label="Unieważnij"
+              @click="revokedBatch = batch"
             />
           </div>
           <div class="q-pa-md">
@@ -123,6 +108,11 @@
         </div>
       </q-expansion-item>
     </q-card>
+    <revoke-tokens-dialog
+      :batch="revokedBatch"
+      :update-batch-list="updateBatches"
+      @close="revokedBatch = null"
+    />
   </q-page>
 </template>
 
@@ -141,6 +131,9 @@ import { reactive, ref } from 'vue';
 import { useAPI } from 'src/api';
 import { useLoadingState } from 'src/composables/loading';
 import { GenerateTokensResponse } from 'src/api/types';
+import TokenBatchHeader from 'components/TokenBatchHeader.vue';
+import { TokenBatch } from 'src/types';
+import RevokeTokensDialog from 'components/RevokeTokensDialog.vue';
 
 const homeTo = {
   name: routeNames.home,
@@ -153,10 +146,10 @@ const batches = useLoadingState(
   async () => {
     const result = await api.getTokenBatches();
     return result
-      .map((batch) => {
+      .map((batch): TokenBatch => {
         const usedTokens = batch.tokens.filter((token) => token.used === true);
         const unusedTokens = batch.tokens.filter((token) => token.used === false);
-        return ({
+        return {
           uuid: batch.batchUuid,
           usedTokens,
           className: batch.className,
@@ -164,7 +157,7 @@ const batches = useLoadingState(
           timestamp: batch.timestamp,
           generationDate: new Date(batch.timestamp * 1000).toLocaleString(),
           pdfUrl: `/api/admin/tokens/pdf/${batch.batchUuid}.pdf`,
-        });
+        };
       })
       .sort((lhs, rhs) => rhs.timestamp - lhs.timestamp);
   },
@@ -177,8 +170,15 @@ const setExpanded = (batchUuid: string, expanded: boolean) => {
   else expandedList.delete(batchUuid);
 };
 
+const updateBatches = async () => {
+  if (batches.value.state !== 'ready') return;
+  await batches.value.reload();
+};
+
 const addBatch = async (batch: GenerateTokensResponse) => {
   expandedList.add(batch.batchUuid);
-  if (batches.value.state === 'ready') await batches.value.reload();
+  await updateBatches();
 };
+
+const revokedBatch = ref<TokenBatch | null>(null);
 </script>

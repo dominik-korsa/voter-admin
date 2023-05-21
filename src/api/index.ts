@@ -5,7 +5,7 @@ import type {
   CurrentUser,
   GenerateTokensResponse, ResultsLogo,
   SystemInfo,
-  SystemInfoResponse, TokenBatch,
+  SystemInfoResponse, TokenBatchResponse,
 } from 'src/api/types';
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { UserManager, useUserManager } from 'src/composables/user-manager';
@@ -148,8 +148,12 @@ export class API {
   }
 
   async getTokenBatches() {
-    const response = await this.instance.get<TokenBatch[]>('admin/tokens/get');
+    const response = await this.instance.get<TokenBatchResponse[]>('admin/tokens/get');
     return response.data;
+  }
+
+  async revokeTokenBatch(uuid: string) {
+    await this.instance.delete(`admin/tokens/revoke/${uuid}`);
   }
 
   async getResults() {

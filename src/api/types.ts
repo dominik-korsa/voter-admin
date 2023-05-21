@@ -55,7 +55,7 @@ export interface Token {
   used: boolean;
 }
 
-export interface TokenBatch {
+export interface TokenBatchResponse {
   batchUuid: string;
   class: string;
   className: string;
