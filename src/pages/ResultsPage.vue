@@ -61,7 +61,7 @@
       >
         <template #body-cell-number="{ value }">
           <td>
-            <span class="results__logo-number">Logo <b>{{ value }}</b></span>
+            <span class="logo-number results__logo-number">Logo <b>{{ value }}</b></span>
           </td>
         </template>
         <template #body-cell-ranking="{ value }">
@@ -285,14 +285,8 @@ const reload = async () => {
   }
 
   .results__logo-number {
-    background: white;
-    border: 1px solid $separator-color;
-    border-radius: $generic-border-radius;
-    padding: 2px 4px;
-    box-shadow: 1px 1px #0003;
     width: 100%;
     display: inline-block;
-    text-align: center;
   }
 
   .results__logo-ranking {

@@ -44,3 +44,12 @@ body {
 .font-monospace {
   font-family: 'Space Mono', monospace;
 }
+
+.logo-number {
+  background: white;
+  border: 1px solid $separator-color;
+  border-radius: $generic-border-radius;
+  padding: 2px 4px;
+  box-shadow: 1px 1px #0003;
+  text-align: center;
+}

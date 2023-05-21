@@ -68,9 +68,5 @@ export default defineComponent({
   > *:not(:first-child) {
     margin-top: 24px;
   }
-
-  .index-page__logos-list {
-    margin: 0 -4px;
-  }
 }
 </style>

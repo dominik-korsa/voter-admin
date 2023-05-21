@@ -1,5 +1,5 @@
 <template>
-  <home-card label="Lista klas">
+  <home-card class="class-list" label="Lista klas">
     <q-list separator>
       <q-item
         v-for="item in classItems"
@@ -9,17 +9,18 @@
       >
         <q-item-section class="col-side q-mr-sm">
           <div class="text-overline">Nazwa</div>
-          {{ item.name }}
+          <div class="q-my-xs">{{ item.name }}</div>
         </q-item-section>
         <q-item-section class="q-mr-sm">
           <div class="text-overline">Numery logo</div>
-          <div class="index-page__logos-list">
-            <q-chip
+          <div class="class-list__logos-list">
+            <span
+              class="logo-number"
               v-for="logo in item.logos"
               :key="logo"
-              :label="logo"
-              dense
-            />
+            >
+              {{ logo }}
+            </span>
           </div>
         </q-item-section>
         <q-item-section class="col-side" v-if="item.tokenCount !== null">
@@ -94,3 +95,16 @@ export default defineComponent({
   }),
 });
 </script>
+
+<style lang="scss">
+.class-list {
+  .class-list__logos-list {
+    margin: 0 -4px;
+
+    .logo-number {
+      display: inline-block;
+      margin: 2px 4px;
+    }
+  }
+}
+</style>
