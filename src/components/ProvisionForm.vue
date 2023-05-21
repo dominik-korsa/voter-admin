@@ -101,7 +101,7 @@ import {
 import { uid, useQuasar } from 'quasar';
 import _ from 'lodash';
 import { notNullish } from '@vueuse/core';
-import { firstNotNull } from 'src/utils';
+import { firstDefined, firstError } from 'src/utils';
 import { useAPI } from 'src/api';
 
 interface ClassItem {
@@ -137,31 +137,33 @@ export default defineComponent({
     const canMoveUp = (index: number) => index !== 0;
     const canMoveDown = (index: number) => index !== classes.value.length - 1;
 
-    const formError = computed((): string | null => {
-      if (classes.value.some((el) => el.name.trim() === '')) return 'Uzupełnij nazwy klas';
-      const usedClassNames = new Set<string>();
-
-      const error = firstNotNull(classes.value, (el) => {
-        const name = el.name.trim();
-        if (usedClassNames.has(name)) return `Nazwa klasy "${name}" się powtarza`;
-        usedClassNames.add(name);
-        return null;
-      }) ?? firstNotNull(classes.value, (el) => {
+    const formError = computed(() => firstError(
+      () => {
+        if (classes.value.some((el) => el.name.trim() === '')) return 'Uzupełnij nazwy klas';
+      },
+      () => {
+        const usedClassNames = new Set<string>();
+        return firstDefined(classes.value, (el) => {
+          const name = el.name.trim();
+          if (usedClassNames.has(name)) return `Nazwa klasy "${name}" się powtarza`;
+          usedClassNames.add(name);
+        });
+      },
+      () => firstDefined(classes.value, (el) => {
         if (el.logos.length === 0) return `Dodaj numery logo w klasie ${el.name.trim()}`;
-        return null;
-      });
-      if (error !== null) return error;
-
-      if (classes.value.length < 2) return 'Dodaj przynajmniej dwie klasy';
-
-      const numbersMap = new Map<number, ClassItem>();
-      return firstNotNull(classes.value, (el) => firstNotNull(el.logos, (chip) => {
-        const prev = numbersMap.get(chip);
-        if (prev !== undefined) return `Logo ${chip} powtarza się w klasach ${prev.name.trim()} i ${el.name.trim()}`;
-        numbersMap.set(chip, el);
-        return null;
-      }));
-    });
+      }),
+      () => {
+        if (classes.value.length < 2) return 'Dodaj przynajmniej dwie klasy';
+      },
+      () => {
+        const numbersMap = new Map<number, ClassItem>();
+        return firstDefined(classes.value, (el) => firstDefined(el.logos, (chip) => {
+          const prev = numbersMap.get(chip);
+          if (prev !== undefined) return `Logo ${chip} powtarza się w klasach ${prev.name.trim()} i ${el.name.trim()}`;
+          numbersMap.set(chip, el);
+        }));
+      },
+    ));
 
     const loading = ref(false);
 

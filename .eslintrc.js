@@ -103,5 +103,7 @@ module.exports = {
     'no-console': ['warn', { allow: ['warn', 'error'] }],
 
     'default-case': 'off',
+
+    'consistent-return': 'off',
   }
 }
