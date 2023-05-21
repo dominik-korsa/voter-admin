@@ -53,8 +53,8 @@
             <span class="results__logo-number">Logo <b>{{ value }}</b></span>
           </td>
         </template>
-        <template #body-cell-place="{ value }">
-          <td class="text-right results__logo-place">
+        <template #body-cell-ranking="{ value }">
+          <td class="text-right results__logo-ranking">
             <span class="row items-center justify-end no-wrap">
               <span class="emoji" v-if="value === 1">🥇</span>
               <span class="emoji" v-if="value === 2">🥈</span>
@@ -119,8 +119,7 @@ import { useAPI } from 'src/api';
 import { useLoadingState } from 'src/composables/loading';
 import { QTableColumn, useQuasar } from 'quasar';
 import { ref } from 'vue';
-import { mapWithPrev } from 'src/utils';
-import { ResultsLogo } from 'src/api/types';
+import { ResultsLogoClass } from 'src/api/types';
 
 const homeTo = {
   name: routeNames.home,
@@ -129,8 +128,8 @@ const homeTo = {
 interface Row {
   index: number;
   number: number;
-  className: string;
-  place: number;
+  class: ResultsLogoClass;
+  ranking: number;
   pointsTotal: number;
   points5: number;
   points3: number;
@@ -148,20 +147,18 @@ const columns = ref<QTableColumn<Row>[]>([
   {
     label: 'Klasa',
     name: 'className',
-    field: 'className',
+    field: 'class',
     sortable: true,
-    sort: (a, b, rowA: Row, rowB: Row) => {
-      // TODO: Use proper index fields
-      const indexA = a;
-      const indexB = b;
-      if (indexA === indexB) return rowA.number - rowB.number;
-      return indexA < indexB ? -1 : 1;
+    format: ({ name }: ResultsLogoClass) => name,
+    sort: (a: ResultsLogoClass, b: ResultsLogoClass, rowA: Row, rowB: Row) => {
+      if (a.number === b.number) return rowA.number - rowB.number;
+      return a.number < b.number ? -1 : 1;
     },
   },
   {
     label: 'Miejsce',
-    name: 'place',
-    field: 'place',
+    name: 'ranking',
+    field: 'ranking',
   },
   {
     label: '5 pkt.',
@@ -206,21 +203,25 @@ const columns = ref<QTableColumn<Row>[]>([
 const api = useAPI();
 const quasar = useQuasar();
 
-const results = useLoadingState(async () => mapWithPrev<ResultsLogo, Row>(
-  await api.getResults(),
-  (logo, index, prev) => ({
-    index,
-    number: logo.number,
-    className: logo.className,
-    place: (prev !== undefined && prev.pointsTotal === logo.points) ? prev.place : index + 1,
-    pointsTotal: logo.points,
-    // TODO: Use real data
-    points5: Math.floor(Math.random() * 20),
-    points3: Math.floor(Math.random() * 20),
-    points1: Math.floor(Math.random() * 20),
-    pointsNeg1: Math.floor(Math.random() * 20),
-  }),
-));
+const results = useLoadingState(async () => {
+  const result = await api.getResults();
+  return result.map((logo, index): Row => {
+    const getCount = (points: number) => logo.detailedPoints.find(
+      (e) => e.points === points,
+    )?.count ?? 0;
+    return ({
+      index,
+      number: logo.number,
+      class: logo.class,
+      ranking: logo.ranking,
+      pointsTotal: logo.totalPoints,
+      points5: getCount(5),
+      points3: getCount(3),
+      points1: getCount(1),
+      pointsNeg1: getCount(-1),
+    });
+  });
+});
 
 const reloadLoading = ref(false);
 const reload = async () => {
@@ -279,7 +280,7 @@ const reload = async () => {
     text-align: center;
   }
 
-  .results__logo-place {
+  .results__logo-ranking {
     vertical-align: center;
     padding-top: 0;
     padding-bottom: 0;

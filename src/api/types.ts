@@ -63,9 +63,19 @@ export interface TokenBatch {
   tokens: Token[];
 }
 
+export interface ResultsLogoClass {
+  number: number;
+  uuid: string;
+  name: string;
+}
+
 export interface ResultsLogo {
   number: number;
-  class: string;
-  className: string;
-  points: number;
+  class: ResultsLogoClass,
+  totalPoints: number;
+  detailedPoints: {
+    points: number;
+    count: number;
+  }[];
+  ranking: number;
 }
