@@ -138,9 +138,9 @@ export default defineComponent({
     const canMoveDown = (index: number) => index !== classes.value.length - 1;
 
     const formError = computed((): string | null => {
-      if (classes.value.length === 0) return 'Dodaj przynajmniej jedną klasę';
       if (classes.value.some((el) => el.name.trim() === '')) return 'Uzupełnij nazwy klas';
       const usedClassNames = new Set<string>();
+
       const error = firstNotNull(classes.value, (el) => {
         const name = el.name.trim();
         if (usedClassNames.has(name)) return `Nazwa klasy "${name}" się powtarza`;
@@ -151,6 +151,9 @@ export default defineComponent({
         return null;
       });
       if (error !== null) return error;
+
+      if (classes.value.length < 2) return 'Dodaj przynajmniej dwie klasy';
+
       const numbersMap = new Map<number, ClassItem>();
       return firstNotNull(classes.value, (el) => firstNotNull(el.logos, (chip) => {
         const prev = numbersMap.get(chip);
