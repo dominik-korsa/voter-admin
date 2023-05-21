@@ -267,6 +267,10 @@ const reload = async () => {
       margin-left: 3px;
       font-weight: 300;
     }
+
+    tr:not(:hover):not(:first-of-type ) .results__cell-sign {
+      display: none;
+    }
   }
 
   .results__logo-number {
