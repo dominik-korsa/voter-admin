@@ -22,6 +22,17 @@
           @click="reload()"
           :disable="results.state !== 'ready'"
         />
+        <q-btn
+          label="Pobierz plik CSV"
+          icon="download"
+          color="primary"
+          no-caps
+          outline
+          href="/api/admin/voting/results/results.csv"
+          target="_blank"
+          download
+          class="q-ml-sm"
+        />
       </q-toolbar>
       <q-linear-progress
         v-if="results.state === 'loading'"
