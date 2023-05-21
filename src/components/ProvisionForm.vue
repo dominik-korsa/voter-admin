@@ -31,6 +31,7 @@
             :label="`Numery logo klasy ${item.name ?? ''}`"
             @new-value="createValue"
             hide-hint
+            :placeholder="getChips(i).length === 0 ? 'Na przykład 1-5 albo 6, 9, 15' : ''"
           >
           </q-select>
           <q-btn flat round icon="more_vert" class="provision-form__more-button">
@@ -189,9 +190,10 @@ export default defineComponent({
               let from = parseInt(match[1], 10);
               let to = parseInt(match[2] ?? match[1], 10) + 1;
               if (Number.isNaN(from) || Number.isNaN(to)) return null;
-              if (to <= from || from < 0) return null;
+              if (from < 0) return null;
               to = Math.min(to, from + 20, 1000);
               from = Math.max(from, 0);
+              if (to <= from) return null;
               return _.range(from, to);
             })
             .filter(notNullish),
