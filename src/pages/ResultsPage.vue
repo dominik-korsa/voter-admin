@@ -130,6 +130,7 @@ import { ref } from 'vue';
 import { ResultsLogoClass } from 'src/api/types';
 import ReloadButton from 'components/ReloadButton.vue';
 import PageToolbar from 'components/PageToolbar.vue';
+import { useIntervalFn } from '@vueuse/core';
 
 interface Row {
   index: number;
@@ -228,6 +229,11 @@ const results = useLoadingState(async () => {
     });
   });
 });
+
+useIntervalFn(() => {
+  if (results.value.state !== 'ready') return;
+  results.value.reload().catch(console.warn);
+}, 10000);
 
 const reload = async () => {
   if (results.value.state !== 'ready') return;
