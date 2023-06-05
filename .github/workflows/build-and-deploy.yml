@@ -26,7 +26,7 @@ jobs:
           # -r: copy files recursively
           # --delete: delete extraneous files from dest dirs
           switches: -vzr --delete
-          path: dist/spa/
+          path: dist/pwa/
           remote_path: ${{ vars.DEPLOY_PATH }}
           remote_host: ${{ vars.DEPLOY_HOST }}
           remote_port: ${{ vars.DEPLOY_PORT }}
