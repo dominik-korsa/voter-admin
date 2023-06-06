@@ -3,6 +3,9 @@
     <q-card-section tag="h6" class="q-ma-none">
       Skonfiguruj system głosowania
     </q-card-section>
+    <q-card-section class="q-pt-none">
+      Wprowadź wszystkie klasy i numery logo w tych klasach
+    </q-card-section>
     <q-separator />
     <div class="overflow-auto">
       <q-list padding class="q-pb-none">
