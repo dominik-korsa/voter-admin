@@ -10,6 +10,17 @@
         class="q-my-xs"
       />
       <q-btn
+        flat
+        round
+        icon="print"
+        aria-label="Drukuj wyniki"
+        @click="print"
+        color="primary"
+        class="q-my-xs xs-hide"
+      >
+        <q-tooltip>Drukuj wyniki</q-tooltip>
+      </q-btn>
+      <q-btn
         v-if="$q.screen.gt.xs"
         label="Pobierz plik CSV"
         icon="download"
@@ -246,6 +257,10 @@ const reload = async () => {
       message: 'Nie udało się odświeżyć listy wyników',
     });
   }
+};
+
+const print = () => {
+  window.print();
 };
 </script>
 

@@ -71,4 +71,8 @@ body {
   .q-table tr:hover td:before {
     background: none;
   }
+
+  .q-tooltip {
+    display: none;
+  }
 }
