@@ -277,8 +277,16 @@ const reload = async () => {
       font-weight: 300;
     }
 
-    tr:not(:hover):not(:first-of-type ) .results__cell-sign {
-      display: none;
+    tr:not(:first-of-type) {
+      .results__cell-sign {
+        @media print {
+          display: none;
+        }
+      }
+
+      &:not(:hover) .results__cell-sign {
+        display: none;
+      }
     }
   }
 

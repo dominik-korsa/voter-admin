@@ -22,6 +22,10 @@ body {
 
 .q-card, .q-menu {
   box-shadow: 3px 3px 0 #0003;
+
+  @media print {
+    box-shadow: none;
+  }
 }
 
 .q-menu, .q-dialog__inner > .q-card {
@@ -53,4 +57,18 @@ body {
   padding: 2px 4px;
   box-shadow: 1px 1px #0003;
   text-align: center;
+}
+
+@media print {
+  .page-toolbar {
+    display: none;
+  }
+
+  body {
+    background: none;
+  }
+
+  .q-table tr:hover td:before {
+    background: none;
+  }
 }
