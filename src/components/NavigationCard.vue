@@ -36,5 +36,6 @@ defineProps<{
 .navigation-card__graphic {
   aspect-ratio: 2/1;
   width: 100%;
+  overflow: hidden;
 }
 </style>
