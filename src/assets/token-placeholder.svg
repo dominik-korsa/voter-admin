@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="144"
+   height="80"
+   viewBox="0 0 144 80"
+   version="1.1"
+   id="svg20086"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs20083">
+    <linearGradient
+       id="linearGradient22928">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop22924" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop22926" />
+    </linearGradient>
+    <pattern
+       patternUnits="userSpaceOnUse"
+       width="2"
+       height="1"
+       patternTransform="translate(0,0) scale(10,10)"
+       id="Strips1_1">
+      <rect
+         style="fill:black;stroke:none"
+         x="0"
+         y="-0.5"
+         width="1"
+         height="2"
+         id="rect21921" />
+    </pattern>
+    <linearGradient
+       xlink:href="#linearGradient22928"
+       id="linearGradient22930"
+       x1="31.600016"
+       y1="34.133324"
+       x2="128.368"
+       y2="34.133324"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-size:18.6667px;line-height:1.25;font-family:'Century Gothic';-inkscape-font-specification:'Century Gothic';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.6;stroke:none"
+       x="72.055992"
+       y="46.533344"
+       id="text20574"><tspan
+         id="tspan20572"
+         x="72.055992"
+         y="46.533344"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:'Space Grotesk';-inkscape-font-specification:'Space Grotesk';fill:#000000;fill-opacity:0.6;stroke:none">ABCD-2137</tspan></text>
+    <rect
+       style="fill:#000000;fill-opacity:0.12;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:square;stroke-opacity:0.12;stop-color:#000000"
+       id="rect22986"
+       width="112"
+       height="8"
+       x="16"
+       y="16"
+       ry="4" />
+    <rect
+       style="fill:#000000;fill-opacity:0.12;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:square;stroke-opacity:0.12;stop-color:#000000"
+       id="rect22988"
+       width="144"
+       height="8"
+       x="0"
+       y="0"
+       ry="4" />
+    <rect
+       style="fill:#000000;fill-opacity:0.12;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:square;stroke-opacity:0.12;stop-color:#000000"
+       id="rect24442"
+       width="128"
+       height="8"
+       x="8"
+       y="56"
+       ry="4" />
+    <rect
+       style="fill:#000000;fill-opacity:0.12;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:square;stroke-opacity:0.12;stop-color:#000000"
+       id="rect24444"
+       width="120"
+       height="8"
+       x="12"
+       y="72"
+       ry="4" />
+  </g>
+</svg>

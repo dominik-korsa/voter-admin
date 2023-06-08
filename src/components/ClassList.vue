@@ -36,28 +36,6 @@
         </q-item-section>
       </q-item>
     </q-list>
-    <q-separator />
-    <div class="row no-wrap">
-      <q-btn
-        stretch
-        class="col-filler"
-        flat
-        label="Zobacz listę kodów do głosowania"
-        color="primary"
-        no-caps
-        :to="tokensTo"
-      />
-      <q-separator vertical />
-      <q-btn
-        stretch
-        class="col-filler"
-        flat
-        label="Zobacz wyniki"
-        color="primary"
-        no-caps
-        :to="resultsTo"
-      />
-    </div>
   </home-card>
 </template>
 
@@ -67,7 +45,6 @@ import {
 } from 'vue';
 import { ClassResponse } from 'src/api/types';
 import HomeCard from 'components/HomeCard.vue';
-import { routeNames } from 'src/router/route-constants';
 
 interface ClassItem extends ClassResponse {
   tokenCount: null | { used: number; unused: number; };
@@ -86,12 +63,6 @@ export default defineComponent({
       ...item,
       tokenCount: null,
     }))),
-    tokensTo: {
-      name: routeNames.tokens,
-    },
-    resultsTo: {
-      name: routeNames.results,
-    },
   }),
 });
 </script>

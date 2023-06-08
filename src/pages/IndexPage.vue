@@ -18,6 +18,8 @@
       :classes="systemInfo.data.classes"
     />
 
+    <navigation-cards />
+
     <admin-list />
   </q-page>
 </template>
@@ -32,10 +34,12 @@ import SystemInfoCard from 'components/SystemInfoCard.vue';
 import ClassList from 'components/ClassList.vue';
 import SignedInUserCard from 'components/SignedInUserCard.vue';
 import HomeCard from 'components/HomeCard.vue';
+import NavigationCards from 'components/NavigationCards.vue';
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
+    NavigationCards,
     HomeCard,
     SignedInUserCard,
     ClassList,
