@@ -17,9 +17,9 @@
               label="Klasa"
               autofocus
               filled
-              :options="classes"
-              :option-label="option => `Klasa ${option.name}`"
-              :option-value="option => option.class"
+              :options="classItems"
+              :option-label="option => option.label"
+              :option-value="option => option.uuid"
             />
           </q-item-section>
           <q-item-section>
@@ -65,7 +65,12 @@ import {
 } from 'vue';
 import { useQuasar } from 'quasar';
 import { ClassResponse, GenerateTokensResponse } from 'src/api/types';
-import { useAPI } from 'src/api';
+import { API, useAPI } from 'src/api';
+
+interface ClassItem {
+  uuid: string;
+  label: string;
+}
 
 export default defineComponent({
   props: {
@@ -84,9 +89,20 @@ export default defineComponent({
     const api = useAPI();
     const quasar = useQuasar();
 
+    const classItems = computed<ClassItem[]>(() => [
+      {
+        label: 'Bez klasy',
+        uuid: API.noClass,
+      },
+      ...props.classes.map((item) => ({
+        label: `Klasa ${item.name}`,
+        uuid: item.class,
+      })),
+    ]);
+
     const loading = ref(false);
     const number = ref(0);
-    const classSelection = ref<ClassResponse | null>(null);
+    const classSelection = ref<ClassItem | null>(null);
 
     watch(() => props.modelValue, (value) => {
       if (value) return;
@@ -102,12 +118,13 @@ export default defineComponent({
       valid,
       number,
       classSelection,
+      classItems,
       submit: async () => {
         if (loading.value) return;
         if (!valid.value || !classSelection.value) return;
         loading.value = true;
         try {
-          const result = await api.generateTokens(classSelection.value.class, number.value);
+          const result = await api.generateTokens(classSelection.value.uuid, number.value);
           await props.addBatch(result);
           setVisible(false);
         } catch (error) {

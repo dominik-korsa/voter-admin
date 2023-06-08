@@ -139,6 +139,8 @@ export class API {
     await this.instance.post('admin/logout');
   }
 
+  static readonly noClass = '00000000-0000-0000-0000-000000000000';
+
   async generateTokens(classId: string, number: number) {
     const response = await this.instance.post<GenerateTokensResponse>('admin/tokens/generate', {
       class: classId,

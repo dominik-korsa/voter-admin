@@ -1,7 +1,10 @@
 <template>
   <q-item-section>
-    <q-item-label>
+    <q-item-label v-if="batch.className">
       Kody dla klasy <b>{{ batch.className }}</b>
+    </q-item-label>
+    <q-item-label v-else>
+      Kody <b>bez klasy</b>
     </q-item-label>
     <q-item-label caption>
       Wygenerowane <b>{{ batch.generationDate }}</b>
