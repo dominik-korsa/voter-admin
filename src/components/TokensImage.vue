@@ -13,10 +13,10 @@
       class="tokens-image__card-0"
     >
       <div class="tokens-image__qr">
-        <img src="src/assets/qr-code.svg" alt="Przykładowy kod QR">
+        <img src="../assets/qr-code.svg" alt="Przykładowy kod QR">
       </div>
       <div class="tokens-image__right">
-        <img src="src/assets/token-placeholder.svg" alt="Przykładowy kod do głosowania">
+        <img src="../assets/token-placeholder.svg" alt="Przykładowy kod do głosowania">
       </div>
     </q-card>
   </div>

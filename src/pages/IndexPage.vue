@@ -13,12 +13,11 @@
       />
     </home-card>
 
-    <class-list
-      v-if="systemInfo.state === 'ready' && 'classes' in systemInfo.data"
-      :classes="systemInfo.data.classes"
-    />
+    <template v-if="systemInfo.state === 'ready' && 'classes' in systemInfo.data">
+      <class-list :classes="systemInfo.data.classes"/>
 
-    <navigation-cards />
+      <navigation-cards />
+    </template>
 
     <admin-list />
   </q-page>
